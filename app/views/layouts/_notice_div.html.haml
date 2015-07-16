@@ -1,0 +1,5 @@
+%div{style: 'padding-top: 15px; margin-bottom: -20px'}
+  - flash.each do |type, message|
+    .alert.fade.in.center{class: bootstrap_class_for(type)}
+      %button.close{'data-dismiss': 'alert'} ×
+      = message
