@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  level: 1
+  school_id: 1
+  casting_time: MyString
+  spell_range: MyString
+  component: MyString
+  duration: MyString
+  short_description: MyText
+  description: MyText
+
+two:
+  name: MyString
+  level: 1
+  school_id: 1
+  casting_time: MyString
+  spell_range: MyString
+  component: MyString
+  duration: MyString
+  short_description: MyText
+  description: MyText
