@@ -1,3 +1,27 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.details {
+  background-color: #f6f6f6;
+  &.details-invisible {
+    display: none;
+  }
+}
+
+.summary {
+  &.summary-invisible {
+    display: none;
+  }
+}
+
+th, td.expand {
+  cursor: pointer;
+}
+
+.glyphicon-ok {
+  color: #0b0;
+}
+
+.glyphicon-remove {
+  color: #b00;
+}
