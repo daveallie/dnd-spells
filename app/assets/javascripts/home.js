@@ -60,6 +60,11 @@ $(document).ready(function() {
     $(this).change()
   })
 
+  $('.menu-toggle').click(function(e) {
+    e.preventDefault();
+    toggleMenu();
+  });
+
   update_spell_count()
 })
 
@@ -129,4 +134,23 @@ function update_spell_count() {
   if (len != 1)
     message += 's'
   $('.spell-count').html(message)
+}
+
+function toggleMenu() {
+  var $menu = $('#side-menu')
+    , $content = $('#main-content')
+    , $menu_toggle = $('.menu-toggle')
+    , $span = $menu_toggle.children('span')
+  $menu.toggleClass("hide-menu");
+  if ($menu.hasClass("hide-menu")) {
+    $content.stop().animate({"margin-left" : 20}, 500);
+    $menu.stop().animate({"margin-left": -240}, 500);
+    $menu_toggle.stop().animate({"margin-left": -52}, 500)
+  } else {
+    $content.stop().animate({"margin-left" : 260}, 500);
+    $menu.stop().animate({"margin-left": 0}, 500);
+    $menu_toggle.stop().animate({"margin-left": 188}, 500)
+  }
+  $span.toggleClass('glyphicon-backward')
+  $span.toggleClass('glyphicon-forward')
 }
