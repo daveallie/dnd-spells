@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .details {
-  background-color: #f6f6f6;
+  background-color: #e7e7e8;
   &.details-invisible {
     display: none;
   }
@@ -15,7 +15,7 @@
 }
 
 #side-menu {
-  background-color: #eee;
+  background-color: #e7e7e8;
 }
 
 .checkbox-inline input[type="checkbox"] {
@@ -40,4 +40,12 @@ th, td.expand {
 
 .glyph-grey {
   color: #bbb;
+}
+
+#cover {
+  background: url("49.gif") no-repeat scroll center center #e7e7e8;
+  position: absolute;
+  z-index: 100;
+  height: 100%;
+  width: 100%;
 }

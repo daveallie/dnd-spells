@@ -94,6 +94,8 @@ $(document).ready(function() {
     toggleMenu();
   }
   update_spell_count()
+
+  $('#cover').fadeOut(1000);
 })
 
 function any_in_map(keys, map) {
