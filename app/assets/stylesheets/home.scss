@@ -18,6 +18,14 @@
   background-color: #eee;
 }
 
+.checkbox-inline input[type="checkbox"] {
+  margin-left: -15px;
+}
+
+input, textarea, select, .uneditable-input {
+  width: auto;
+}
+
 th, td.expand {
   cursor: pointer;
 }
