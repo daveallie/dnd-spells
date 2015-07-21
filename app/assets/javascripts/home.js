@@ -1,5 +1,15 @@
 $(document).ready(function() {
-  $('.full-table').tablesorter({cssChildRow: 'details'})
+  var $full_table = $('.full-table')
+
+  $full_table.tablesorter({
+      cssChildRow: 'details'
+    , sortList: [[1, 0]]
+    , headers: {0: {sorter: false}}
+  })
+
+  $full_table.on('sortEnd', function(e) {
+    update_headers()
+  })
 
   $('.expand').click(function() {
     var details = $(this).parent().next('.details')
@@ -45,6 +55,21 @@ $(document).ready(function() {
     else
       $('.summary-visible').each(function() {
         if (!any_in_map($(this).data('classes'), ok_classes))
+          hide_summary_row(this)
+      })
+    update_spell_count()
+  })
+
+  $('.vsm-checkbox').click(function() {
+    var ok_vsm = $('.vsm-checkbox').map(function() { return $(this).is(':checked') })
+      , vsm_data
+
+    if ($(this).is(':checked'))
+      filter_all()
+    else
+      $('.summary-visible').each(function() {
+        vsm_data = $(this).data('vsm')
+        if ((!ok_vsm[0] && vsm_data[0]) || (!ok_vsm[1] && vsm_data[1]) || (!ok_vsm[2] && vsm_data[2]))
           hide_summary_row(this)
       })
     update_spell_count()
@@ -153,4 +178,22 @@ function toggleMenu() {
   }
   $span.toggleClass('glyphicon-backward')
   $span.toggleClass('glyphicon-forward')
+}
+
+function update_headers() {
+  $('th').not('.expand-header').each(function() {
+    var $span = $(this).children('span')
+    $span.removeClass('glyph-grey')
+    $span.removeClass('glyphicon-arrow-down')
+    $span.removeClass('glyphicon-arrow-up')
+
+    if ($(this).hasClass('headerSortDown'))
+      $span.addClass('glyphicon-arrow-up')
+    else if ($(this).hasClass('headerSortUp'))
+      $span.addClass('glyphicon-arrow-down')
+    else {
+      $span.addClass('glyph-grey')
+      $span.addClass('glyphicon-arrow-down')
+    }
+  })
 }

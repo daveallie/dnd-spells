@@ -7,29 +7,44 @@
     .center#side-menu{style: 'position: fixed; width: 240px; height: 100%; overflow: auto'}
       %h4{onselectstart: 'return false', style: ''} Search
       %input.input-sm.form-control.search-box{type: 'text', style: 'margin-left: 20px; width: 200px'}
-
-      %h4{onselectstart: 'return false'} Levels
-      %div{onselectstart: 'return false'}
-        %label.checkbox-inline
-          %input.level-checkbox{type: 'checkbox', id: 'level-0', value: 0, checked: true}
-            Cantrip
-        %br
-        - 9.times do |i|
-          %label.checkbox-inline
-            %input.level-checkbox{type: 'checkbox', id: "level-#{i+1}", value: i+1, checked: true}= "#{i+1}"
-          - if (i + 1) % 3 == 0
-            %br
-          - else
-            %span
-
+      .container-fluid
+        .row
+          .col-xs-6{style: 'padding-left: 0px; padding-right: 10px'}
+            %h4{onselectstart: 'return false'} Levels
+            %div{onselectstart: 'return false'}
+              %label.checkbox-inline
+                %input.level-checkbox{type: 'checkbox', id: 'level-0', value: 0, checked: true} Cantrip
+              %br
+              - 9.times do |i|
+                %label.checkbox-inline
+                  %input.level-checkbox{type: 'checkbox', id: "level-#{i+1}", value: i+1, checked: true}= "#{i+1}"
+                - if (i + 1) % 3 == 0
+                  %br
+                - else
+                  %span
+          .col-xs-6{style: 'padding-left: 10px; padding-right: 0px'}
+            %h4{onselectstart: 'return false', style: 'line-height: 32px'} V, S, M
+            %div{onselectstart: 'return false'}
+              %label.checkbox-inline
+                %input.vsm-checkbox{type: 'checkbox', id: 'vms-v', value: 'v', checked: true} V
+              %br
+              %label.checkbox-inline
+                %input.vsm-checkbox{type: 'checkbox', id: 'vms-s', value: 's', checked: true} S
+              %br
+              %label.checkbox-inline
+                %input.vsm-checkbox{type: 'checkbox', id: 'vms-m', value: 'm', checked: true} M
+      %br
       %h4{onselectstart: 'return false'} Schools
-      %div{style: 'text-align: left; margin-left: 70px', onselectstart: 'return false'}
-        - @schools.each do |school|
-          %label.checkbox-inline
-            %input.school-checkbox{type: 'checkbox', id: "school-#{school}", value: school, checked: true}= school
-          %br
+      %div{style: 'text-align: left; margin-left: 10px; margin-right: 41px', onselectstart: 'return false'}
+        - @schools.each_slice(2) do |schools|
+          .row
+            - schools.each do |school|
+              .col-xs-6
+                %label.checkbox-inline
+                  %input.school-checkbox{type: 'checkbox', id: "school-#{school}", value: school, checked: true}= school
+      %br
       %h4{onselectstart: 'return false'} Classes
-      %div{style: 'text-align: left; margin-left: 45px; margin-right: 45px', onselectstart: 'return false'}
+      %div{style: 'text-align: left; margin-left: 23px; margin-right: 18px', onselectstart: 'return false'}
         - @classes.each_slice(2) do |dnd_classes|
           .row
             - dnd_classes.each do |dnd_class|
@@ -45,31 +60,25 @@
       %table.full-table.table
         %thead
           %tr
-            %th
-            %th{style: 'white-space: nowrap'} Name
-            %th{style: 'white-space: nowrap'} Level
-            %th{style: 'white-space: nowrap'} School
-            %th{style: 'white-space: nowrap'} Classes
-            %th{style: 'white-space: nowrap'} V
-            %th{style: 'white-space: nowrap'} S
-            %th{style: 'white-space: nowrap'} M
-            %th{style: 'white-space: nowrap'} Range
-            %th{style: 'white-space: nowrap'} Duration
-            %th{style: 'white-space: nowrap'} Casting Time
+            %th.expand-header
+            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'Range', 'Duration', 'Casting Time'].each do |header|
+              %th{style: 'white-space: nowrap'}
+                %span.glyphicon.glyphicon-arrow-down.glyph-grey{style: 'white-space: nowrap'}
+                = header
         %tbody
           - @spells.each do |_, spell|
             %tr.summary.summary-visible{'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsm': [spell['v'], spell['s'], spell['m']]}
               %td.expand{onselectstart: 'return false'}
                 %span.glyphicon.glyphicon-resize-full
               %td= spell['name']
-              %td= spell['level']
+              %td{style: 'text-align: center'}= spell['level']
               %td= spell['school']
               %td= spell['classes'].sort.join(', ')
-              %td
+              %td{style: 'text-align: center'}
                 %span.glyphicon{class: "glyphicon-#{spell['v'] ? 'ok' : 'remove'}"}
-              %td
+              %td{style: 'text-align: center'}
                 %span.glyphicon{class: "glyphicon-#{spell['s'] ? 'ok' : 'remove'}"}
-              %td
+              %td{style: 'text-align: center'}
                 %span.glyphicon{class: "glyphicon-#{spell['m'] ? 'ok' : 'remove'}"}
               %td= spell['range']
               %td= spell['duration']
