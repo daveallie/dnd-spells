@@ -1,9 +1,8 @@
 #cover
 = render 'layouts/header'
 .container-fluid
-  .menu-toggle.btn.btn-success.btn-sm{style: 'z-index: 10; display: inline-block; position: fixed; text-align: right; margin-left: 187px; margin-top: 4px'}
-    Hide
-    %span.glyphicon.glyphicon-backward
+  .menu-toggle.btn.btn-default.btn-sm{style: 'z-index: 10; display: inline-block; position: fixed; text-align: right; margin-left: 225px; margin-top: 38px'}
+    = icon('chevron-left', '', id: 'menu-toggle-icon', class: 'strong')
   .row
     .center#side-menu{style: 'position: fixed; width: 240px; height: 100%; overflow: auto'}
       %h4{onselectstart: 'return false', style: ''} Search
@@ -64,7 +63,7 @@
             %th.expand-header
             - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'Range', 'Duration', 'Casting Time'].each do |header|
               %th{style: 'white-space: nowrap'}
-                %span.glyphicon.glyphicon-arrow-down.glyph-grey{style: 'white-space: nowrap'}
+                = icon('sort', '', class: 'glyph-grey')
                 = header
         %tbody
           - @spells.each do |_, spell|
@@ -84,9 +83,9 @@
               %td= spell['range']
               %td= spell['duration']
               %td= spell['casting_time']
-            %tr.details.details-invisible
+            %tr.details.details-display-none
               %td{colspan: 11}
-                %table.table{style: 'background-color: #e7e7e8'}
+                %table.table.details-table{style: 'background-color: #e7e7e8'}
                   %tr
                     - if spell['m']
                       %td{style: 'width: 30%'}
