@@ -50,11 +50,14 @@ input, textarea, select, .uneditable-input {
 .menu-toggle {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-left-width: 0;
+  border-width: 0;
   &.btn.btn-default {
-    background-color: #e7e7e8;
+    background: #e7e7e8;
     &:hover {
-      background-color: #d3d3d5;
+      background: -webkit-linear-gradient(left, #e7e7e8, #d3d3d5);
+      background: -o-linear-gradient(right, #e7e7e8, #d3d3d5);
+      background: -moz-linear-gradient(right, #e7e7e8, #d3d3d5);
+      background: linear-gradient(to right, #e7e7e8, #d3d3d5);
     }
   }
 }
