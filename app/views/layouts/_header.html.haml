@@ -1,0 +1,18 @@
+%header.navbar.navbar-fixed-top.navbar-inverse
+  .container
+    .navbar-header
+      %button.navbar-toggle.collapsed{type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar'}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to 'D&Dave', root_path, class: 'navbar-brand', id: 'logo'
+
+    .navbar-collapse.collapse#navbar
+      %ul.nav.navbar-nav.navbar-right
+        %li{class: "#{'active' if current_page?(controller: 'home', action: 'index')}"}= link_to 'Spell Book', root_path
+        %li{class: "#{'active' if current_page?(controller: 'home', action: 'dice')}"}= link_to 'Dice', dice_path
+
+      -#%nav
+      -#%ul.nav.navbar-nav.navbar-right
+      -#  %li= link_to 'Spell Book', root_path
+      -#  %li= link_to 'Dice', dice_path

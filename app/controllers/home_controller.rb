@@ -8,4 +8,7 @@ class HomeController < ApplicationController
     @classes = DndClass.order(name: :asc).pluck(:name)
     @schools = schools.values.sort
   end
+
+  def dice
+  end
 end
