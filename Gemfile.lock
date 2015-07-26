@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/daveallie/dnd-namer.git
-  revision: 918c3792fc2b03291a9eeab53e0c919c3f73baa2
-  tag: 0.0.1
-  specs:
-    dnd-namer (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -65,6 +58,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     debug_inspector (0.0.2)
+    dnd-namer (0.0.1)
     erubis (2.7.0)
     execjs (2.5.2)
     font-awesome-sass (4.3.2.1)
@@ -182,7 +176,7 @@ DEPENDENCIES
   bcrypt (~> 3.1)
   bootstrap-sass (~> 3.3.5)
   coffee-rails (~> 4.1.0)
-  dnd-namer!
+  dnd-namer
   font-awesome-sass (~> 4.3.0)
   haml-rails (~> 0.9)
   jbuilder (~> 2.0)
