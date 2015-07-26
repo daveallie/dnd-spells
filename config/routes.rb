@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  root 'home#index'
+  root 'home#spells'
+  get 'spells' => 'home#spells'
+  get 'spells/:spell_code' => 'home#spells_code'
+  post 'spells' => 'home#update_spells'
   get 'dice'=> 'home#dice'
 
   # The priority is based upon order of creation: first created -> highest priority.

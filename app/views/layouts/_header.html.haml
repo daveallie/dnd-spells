@@ -9,7 +9,7 @@
 
     .navbar-collapse.collapse#navbar
       %ul.nav.navbar-nav.navbar-right
-        %li{class: "#{'active' if current_page?(controller: 'home', action: 'index')}"}= link_to 'Spell Book', root_path
+        %li{class: "#{'active' if current_page?(controller: 'home', action: 'spells') || current_page?(controller: 'home', action: 'spells_code')}"}= link_to 'Spell Book', root_path
         %li{class: "#{'active' if current_page?(controller: 'home', action: 'dice')}"}= link_to 'Dice', dice_path
 
       -#%nav

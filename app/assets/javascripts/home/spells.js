@@ -1,10 +1,26 @@
 $(document).ready(function() {
   var $full_table = $('.full-table')
 
+  $.tablesorter.addParser({
+    id: 'truefalse',
+    is: function (s) {
+      return false;
+    },
+    format: function (s, table, cell) {
+      var $cell = $(cell);
+      return $cell.children('i').attr('class') || s;
+    },
+    type: 'text'
+  });
+
   $full_table.tablesorter({
       cssChildRow: 'details'
     , sortList: [[1, 0]]
-    , headers: {0: {sorter: false}}
+    , sortForce: [[1, 0]]
+    , headers: {
+        0: {sorter: false}
+      , 1: {sorter: 'truefalse'}
+      }
   })
 
   $full_table.on('sortEnd', function(e) {
@@ -74,17 +90,9 @@ $(document).ready(function() {
 
   var search_box = $('.search-box')
 
-  //$(search_box).change(function() {
-  //  filter_all()
-  //})
-
   $(search_box).on('input', function() {
     filter_all()
   })
-
-  //$(search_box).keyup(function() {
-  //  $(this).change()
-  //})
 
   $('.menu-toggle').click(function(e) {
     e.preventDefault();
@@ -103,6 +111,29 @@ $(document).ready(function() {
   if (findBootstrapEnvironment() == 'xs') {
     toggleMenu();
   }
+
+  $('.save-button').click(function() {
+    var spell_code = ($(this).attr('id') == 'save-update' ? $('#spell-code').html() : null) || 'new'
+      , spells_ids = $('.fa-star.starable').map(function() { return $(this).parent().parent().data('id')}).toArray()
+
+    ajax_save(spells_ids, spell_code, save_update_success, save_update_fail)
+  })
+
+  $('.starable').click(function() {
+    $(this).toggleClass('fa-star')
+    $(this).toggleClass('fa-star-o')
+    $full_table.trigger('update')
+
+    var $save_button = $('#save-new')
+    if ($(this).hasClass('fa-star') || $('.fa-star.starable').length > 0)
+      $save_button.show()
+    else
+      $save_button.hide()
+  })
+
+  $('[data-hide]').on("click", function(){
+    $(this).closest("." + $(this).attr("data-hide")).hide(300);
+  });
 
   update_spell_count()
   $('#cover').fadeOut(1000);
@@ -188,20 +219,72 @@ function toggleMenu() {
 }
 
 function update_headers() {
-  $('th').not('.expand-header').each(function() {
-    var $i = $(this).children('i')
+  $('.sort-icon').each(function() {
+    var $i = $(this)
+      , $header = $i.parent()
     $i.removeClass('glyph-grey')
     $i.removeClass('fa-sort')
     $i.removeClass('fa-sort-asc')
     $i.removeClass('fa-sort-desc')
 
-    if ($(this).hasClass('headerSortDown'))
+    if ($header.hasClass('headerSortDown'))
       $i.addClass('fa-sort-asc')
-    else if ($(this).hasClass('headerSortUp'))
+    else if ($header.hasClass('headerSortUp'))
       $i.addClass('fa-sort-desc')
     else {
       $i.addClass('glyph-grey')
       $i.addClass('fa-sort')
     }
   })
+}
+
+function save_update_success(data, update) {
+  var new_key = data['key']
+    , $spell_code = $('#spell-code')
+    , $success_flash = $('#save-update-success-message')
+
+  $('.save-update-message').hide()
+  if (update) {
+    $success_flash.children('span').html('updated')
+  } else {
+    $success_flash.children('span').html('saved')
+    history.pushState('', '', '/spells/' + new_key)
+  }
+  $success_flash.show(300);
+
+  $spell_code.html(new_key)
+  $spell_code.show()
+  $('#save-new').html('Save as new')
+  $('.save-button').show()
+}
+
+function save_update_fail(jqXHR, textStatus, update) {
+  var $fail_flash = $('#save-update-fail-message')
+
+  $('.save-update-message').hide()
+  if (update) {
+    $fail_flash.children('span').html('update')
+  } else {
+    $fail_flash.children('span').html('save')
+  }
+  $fail_flash.show(300)
+}
+
+function ajax_save(data, key, success_funct, fail_funct) {
+  key = key || 'new'
+  var update = key != 'new'
+
+  $.ajax({
+    url: "/spells",
+    type: "POST",
+    data: {
+      key: key,
+      spells: data
+    },
+    dataType: "json"
+  }).done(function( data ) {
+    success_funct(data, update)
+  }).fail(function( jqXHR, textStatus ) {
+    fail_funct(jqXHR, textStatus, update)
+  });
 }

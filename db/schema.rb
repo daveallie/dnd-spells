@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150720120200) do
+ActiveRecord::Schema.define(version: 20150724143558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,15 @@ ActiveRecord::Schema.define(version: 20150720120200) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "spell_code_maps", force: :cascade do |t|
+    t.string   "key",        null: false
+    t.text     "spells"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "spell_code_maps", ["key"], name: "index_spell_code_maps_on_key", unique: true, using: :btree
 
   create_table "spells", force: :cascade do |t|
     t.string   "name"

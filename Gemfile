@@ -30,6 +30,7 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem 'autoprefixer-rails', '~> 5.2'
 gem 'haml-rails', '~> 0.9'
 gem 'font-awesome-sass', '~> 4.3.0'
+gem 'dnd-namer', :git => 'https://github.com/daveallie/dnd-namer.git', :tag => '0.0.1'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views

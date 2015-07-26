@@ -1,6 +1,6 @@
 - content_for :head do
   = javascript_include_tag 'jquery.tablesorter.mod'
-  = javascript_include_tag 'home/index'
+  = javascript_include_tag 'home/spells'
 - content_for :title do
   = 'Spell Book'
 
@@ -60,20 +60,47 @@
         0 spells
     .container-fluid#main-content{style: 'height: 100%; overflow: auto; margin-left: 260px; margin-right: 20px'}
       = render 'layouts/notice_div'
-      %h1 Spell Book
-      %table.full-table.table
+
+      .alert.center.save-update-message#save-update-success-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:success)}
+        %button.close{'data-hide': 'alert'} ×
+        Successfully
+        %span saved
+        your spell list.
+
+      .alert.center.save-update-message#save-update-fail-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:error)}
+        %button.close{'data-hide': 'alert'} ×
+        Failed to
+        %span save
+        your spell list.
+      .row
+        .col-xs-2{style: 'padding-top: 20px'}
+          .btn.btn-success.save-button#save-new{style: "#{'display: none' unless @spell_code}"}= "Save#{' as new' if @spell_code}"
+          %br
+          .btn.btn-info.save-button#save-update{style: "#{'display: none' unless @spell_code}"} Update
+        .col-xs-8
+          %h1{style: 'margin-bottom: 10px'} Spell Book
+          %h2#spell-code{style: "margin-top: 0; margin-bottom: 10px; #{'display: none' unless @spell_code}"}= @spell_code || ''
+      %table.full-table.table{style: 'margin-top: 30px'}
         %thead
           %tr
             %th.expand-header
+            %th{style: 'white-space: nowrap'}
+              = icon('star', '')
+              = icon('sort', '', class: 'sort-icon glyph-grey')
             - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'Range', 'Duration', 'Casting Time'].each do |header|
               %th{style: 'white-space: nowrap'}
-                = icon('sort', '', class: 'glyph-grey')
                 = header
+                = icon('sort', '', class: 'sort-icon glyph-grey')
         %tbody
-          - @spells.each do |_, spell|
-            %tr.summary.summary-visible{'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsm': [spell['v'], spell['s'], spell['m']]}
+          - @spells.each do |id, spell|
+            %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsm': [spell['v'], spell['s'], spell['m']]}
               %td.expand{onselectstart: 'return false'}
                 %span.glyphicon.glyphicon-resize-full
+              %td
+                - if spell.has_key? 'starred'
+                  = icon('star', '', class: 'starable')
+                - else
+                  = icon('star-o', '', class: 'starable')
               %td= spell['name']
               %td{style: 'text-align: center'}= spell['level']
               %td= spell['school']
@@ -88,7 +115,7 @@
               %td= spell['duration']
               %td= spell['casting_time']
             %tr.details.details-display-none
-              %td{colspan: 11}
+              %td{colspan: 12}
                 %table.table.details-table{style: 'background-color: #e7e7e8'}
                   %tr
                     - if spell['m']
