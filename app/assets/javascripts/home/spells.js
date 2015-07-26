@@ -129,8 +129,12 @@ $(document).ready(function() {
         : "Password for Spell List:<br/>" +
           "<span style='font-size: small'>(setting a password will prevent others from changing your list, leave blank for no password)</span>"
 
-    bootbox.prompt(message, function(password) {
-      ajax_save(save_update_success, save_update_fail, spells_ids, spell_code, password)
+    bootbox.prompt({
+      title: message,
+      inputType: "password",
+      callback: function(password) {
+        ajax_save(save_update_success, save_update_fail, spells_ids, spell_code, password)
+      }
     });
   })
 
