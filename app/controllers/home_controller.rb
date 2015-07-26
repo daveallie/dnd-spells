@@ -25,24 +25,37 @@ class HomeController < ApplicationController
   # POST /spells
   def update_spells
     require 'dnd-namer'
+    require 'airbrake'
 
     key = params[:key]
     spell_ids = Spell.where(id: params[:spells]).pluck(:id)
+    password = params[:password]
+    status = 200
 
     if key == 'new'
       key = DndNamer.heroku
-      scm = SpellCodeMap.new(key: key, spells: spell_ids)
-      while !scm.save
+      scm = SpellCodeMap.new(key: key, spells: spell_ids, password: password)
+      clashes = 0
+      until scm.save
         key = DndNamer.heroku
         scm.key = key
+        clashes += 1
       end
+
+      Airbrake.notify(::Exceptions::SpellCodeCollisionException.new(clashes.to_s)) if clashes > 0
     else
       scm = SpellCodeMap.find_by(key: key)
-      scm.spells = spell_ids
-      scm.save
+      scm = scm.password_digest.nil? ? scm : scm.authenticate(password)
+
+      if scm
+        scm.spells = spell_ids
+        scm.save
+      else
+        status = 403
+      end
     end
 
-    render json: {key: key}
+    render json: {key: key}, status: status
   end
 
   # GET /dice

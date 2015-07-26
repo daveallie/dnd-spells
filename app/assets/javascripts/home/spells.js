@@ -1,3 +1,9 @@
+var SAVE_SUCCESS_MESSAGE = 'Successfully saved your spell list.'
+  , UPDATE_SUCCESS_MESSAGE = 'Successfully updated your spell list.'
+  , SAVE_FAIL_MESSAGE = 'Failed to save your spell list.'
+  , UPDATE_FAIL_MESSAGE = 'Failed to update your spell list.'
+  , UPDATE_AUTH_FAIL_MESSAGE = 'Password incorrect! Spell list was not updated.'
+
 $(document).ready(function() {
   var $full_table = $('.full-table')
 
@@ -113,10 +119,19 @@ $(document).ready(function() {
   }
 
   $('.save-button').click(function() {
-    var spell_code = ($(this).attr('id') == 'save-update' ? $('#spell-code').html() : null) || 'new'
+    var is_update = $(this).attr('id') == 'save-update'
+      , spell_code = (is_update ? $('#spell-code').html() : null) || 'new'
       , spells_ids = $('.fa-star.starable').map(function() { return $(this).parent().parent().data('id')}).toArray()
+      , password = null
+      , message = is_update ?
+          "Password for Spell List:<br/>" +
+          "<span style='font-size: small'>(leave blank if no password was set when the spell list was created)</span>"
+        : "Password for Spell List:<br/>" +
+          "<span style='font-size: small'>(setting a password will prevent others from changing your list, leave blank for no password)</span>"
 
-    ajax_save(spells_ids, spell_code, save_update_success, save_update_fail)
+    bootbox.prompt(message, function(password) {
+      ajax_save(save_update_success, save_update_fail, spells_ids, spell_code, password)
+    });
   })
 
   $('.starable').click(function() {
@@ -245,9 +260,9 @@ function save_update_success(data, update) {
 
   $('.save-update-message').hide()
   if (update) {
-    $success_flash.children('span').html('updated')
+    $success_flash.children('span').html(UPDATE_SUCCESS_MESSAGE)
   } else {
-    $success_flash.children('span').html('saved')
+    $success_flash.children('span').html(SAVE_SUCCESS_MESSAGE)
     history.pushState('', '', '/spells/' + new_key)
   }
   $success_flash.show(300);
@@ -263,14 +278,18 @@ function save_update_fail(jqXHR, textStatus, update) {
 
   $('.save-update-message').hide()
   if (update) {
-    $fail_flash.children('span').html('update')
+    if (jqXHR.status == 403) {
+      $fail_flash.children('span').html(UPDATE_AUTH_FAIL_MESSAGE)
+    } else {
+      $fail_flash.children('span').html(UPDATE_FAIL_MESSAGE)
+    }
   } else {
-    $fail_flash.children('span').html('save')
+    $fail_flash.children('span').html(SAVE_FAIL_MESSAGE)
   }
   $fail_flash.show(300)
 }
 
-function ajax_save(data, key, success_funct, fail_funct) {
+function ajax_save(success_funct, fail_funct, data, key, password) {
   key = key || 'new'
   var update = key != 'new'
 
@@ -279,7 +298,8 @@ function ajax_save(data, key, success_funct, fail_funct) {
     type: "POST",
     data: {
       key: key,
-      spells: data
+      spells: data,
+      password: password
     },
     dataType: "json"
   }).done(function( data ) {

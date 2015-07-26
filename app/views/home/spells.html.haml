@@ -63,15 +63,11 @@
 
       .alert.center.save-update-message#save-update-success-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:success)}
         %button.close{'data-hide': 'alert'} ×
-        Successfully
-        %span saved
-        your spell list.
+        %span Successfully saved your spell list.
 
       .alert.center.save-update-message#save-update-fail-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:error)}
         %button.close{'data-hide': 'alert'} ×
-        Failed to
-        %span save
-        your spell list.
+        %span Failed to save your spell list.
       .row
         .col-xs-2{style: 'padding-top: 20px'}
           .btn.btn-success.save-button#save-new{style: "#{'display: none' unless @spell_code}"}= "Save#{' as new' if @spell_code}"

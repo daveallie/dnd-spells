@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-sprockets
+//= require bootbox.min.js
 
 function findBootstrapEnvironment() {
   var envs = ['xs', 'sm', 'md', 'lg']

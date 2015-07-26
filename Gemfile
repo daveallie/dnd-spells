@@ -24,12 +24,14 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'bcrypt', '~> 3.1'
 gem 'rails-html-sanitizer', '~> 1.0'
 gem 'puma', '~> 2.12'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'autoprefixer-rails', '~> 5.2'
 gem 'haml-rails', '~> 0.9'
 gem 'font-awesome-sass', '~> 4.3.0'
+gem 'airbrake', '~> 4.3'
 gem 'dnd-namer', :git => 'https://github.com/daveallie/dnd-namer.git', :tag => '0.0.1'
 
 group :development, :test do
