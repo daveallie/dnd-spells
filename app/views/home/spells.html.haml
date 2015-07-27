@@ -83,10 +83,11 @@
             %th{style: 'white-space: nowrap'}
               = icon('star', '')
               = icon('sort', '', class: 'sort-icon glyph-grey')
-            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'Range', 'Duration', 'Casting Time'].each do |header|
+            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'Range', 'Duration', 'Casting Time'].each_with_index do |header, index|
               %th{style: 'white-space: nowrap'}
                 = header
-                = icon('sort', '', class: 'sort-icon glyph-grey')
+                - if index < 7
+                  = icon('sort', '', class: 'sort-icon glyph-grey')
         %tbody
           - @spells.each do |id, spell|
             %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsm': [spell['v'], spell['s'], spell['m']]}
@@ -94,9 +95,9 @@
                 %span.glyphicon.glyphicon-resize-full
               %td
                 - if spell.has_key? 'starred'
-                  = icon('star', '', class: 'starable')
+                  %i.starable.fa.fa-star
                 - else
-                  = icon('star-o', '', class: 'starable')
+                  %i.starable.fa.fa-star-o
               %td= spell['name']
               %td{style: 'text-align: center'}= spell['level']
               %td= spell['school']

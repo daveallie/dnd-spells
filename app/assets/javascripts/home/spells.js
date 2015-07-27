@@ -26,7 +26,10 @@ $(document).ready(function() {
     , headers: {
         0: {sorter: false}
       , 1: {sorter: 'truefalse'}
-      }
+      , 9: {sorter: false}
+      , 10: {sorter: false}
+      , 11: {sorter: false}
+    }
   })
 
   $full_table.on('sortEnd', function(e) {
