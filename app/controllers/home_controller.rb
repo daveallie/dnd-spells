@@ -1,7 +1,8 @@
 class HomeController < ApplicationController
-  # GET /spells
+  # GET /spells, GET /
   def spells
     get_all_spells
+    @spells = @spells.sort_by {|k, v| v['name']}
   end
 
   # GET /spells/:spell_code
