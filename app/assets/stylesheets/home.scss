@@ -2,9 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .full-table {
-  th.header, td.expand {
+  th.header {
     cursor: pointer;
   }
+
+  td.expand {
+    cursor: pointer;
+    color: #3f3f53;
+    &:hover {
+      color: #181832;
+    }
+  }
+
   .details {
     background-color: #e7e7e8;
     -webkit-transition: opacity 0.2s ease-in-out;
@@ -81,4 +90,16 @@ i.fa.starable:hover {
 
 .glyph-grey {
   color: #bbb;
+}
+
+.toggle-all {
+  font-size: small;
+  cursor: pointer;
+  color: #3f3f53;
+  vertical-align: middle;
+  display: inline-block;
+  margin-bottom: 3px;
+  &:hover {
+    color: #181832;
+  }
 }

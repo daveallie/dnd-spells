@@ -14,47 +14,62 @@
       .container-fluid
         .row
           .col-xs-6{style: 'padding-left: 0px; padding-right: 10px'}
-            %h4{onselectstart: 'return false'} Levels
+            %h4{onselectstart: 'return false'}
+              %span.toggle-all#toggle-level{'data-toggle-class': 'level-checkbox'}
+                = icon('plus-square')
+              Levels
             %div{onselectstart: 'return false'}
               %label.checkbox-inline
-                %input.level-checkbox{type: 'checkbox', id: 'level-0', value: 0, checked: true} Cantrip
+                %input.level-checkbox{type: 'checkbox', id: 'level-0', value: 0}Cantrip
               %br
               - 9.times do |i|
                 %label.checkbox-inline
-                  %input.level-checkbox{type: 'checkbox', id: "level-#{i+1}", value: i+1, checked: true}= "#{i+1}"
+                  %input.level-checkbox{type: 'checkbox', id: "level-#{i+1}", value: i+1}= "#{i+1}"
                 - if (i + 1) % 3 == 0
                   %br
                 - else
                   %span
           .col-xs-6{style: 'padding-left: 10px; padding-right: 0px'}
-            %h4{onselectstart: 'return false', style: 'line-height: 32px'} V, S, M
-            %div{onselectstart: 'return false'}
+            %h4{onselectstart: 'return false'}
+              %span.toggle-all#toggle-vsmr{'data-toggle-class': 'vsmr-checkbox'}
+                = icon('plus-square')
+              V, S, M, R
+            %div{onselectstart: 'return false', style: 'text-align: left; margin-left: 40px'}
               %label.checkbox-inline
-                %input.vsm-checkbox{type: 'checkbox', id: 'vms-v', value: 'v', checked: true} V
+                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-v', value: 'v'} V
               %br
               %label.checkbox-inline
-                %input.vsm-checkbox{type: 'checkbox', id: 'vms-s', value: 's', checked: true} S
+                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-s', value: 's'} S
               %br
               %label.checkbox-inline
-                %input.vsm-checkbox{type: 'checkbox', id: 'vms-m', value: 'm', checked: true} M
+                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-m', value: 'm'} M
+              %br
+              %label.checkbox-inline
+                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-r', value: 'r'} R
       %br
-      %h4{onselectstart: 'return false'} Schools
+      %h4{onselectstart: 'return false'}
+        %span.toggle-all#toggle-school{'data-toggle-class': 'school-checkbox'}
+          = icon('plus-square')
+        Schools
       %div{style: 'text-align: left; margin-left: 10px; margin-right: 41px', onselectstart: 'return false'}
         - @schools.each_slice(2) do |schools|
           .row
             - schools.each do |school|
               .col-xs-6
                 %label.checkbox-inline
-                  %input.school-checkbox{type: 'checkbox', id: "school-#{school}", value: school, checked: true}= school
+                  %input.school-checkbox{type: 'checkbox', id: "school-#{school}", value: school}= school
       %br
-      %h4{onselectstart: 'return false'} Classes
+      %h4{onselectstart: 'return false'}
+        %span.toggle-all#toggle-class{'data-toggle-class': 'class-checkbox'}
+          = icon('plus-square')
+        Classes
       %div{style: 'text-align: left; margin-left: 23px; margin-right: 18px', onselectstart: 'return false'}
         - @classes.each_slice(2) do |dnd_classes|
           .row
             - dnd_classes.each do |dnd_class|
               .col-xs-6
                 %label.checkbox-inline
-                  %input.class-checkbox{type: 'checkbox', id: "class-#{dnd_class}", value: dnd_class, checked: true}= dnd_class
+                  %input.class-checkbox{type: 'checkbox', id: "class-#{dnd_class}", value: dnd_class}= dnd_class
       %br
       %span.spell-count
         0 spells
@@ -83,14 +98,14 @@
             %th{style: 'white-space: nowrap'}
               = icon('star', '')
               = icon('sort', '', class: 'sort-icon glyph-grey')
-            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'Range', 'Duration', 'Casting Time'].each_with_index do |header, index|
+            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'R', 'Range', 'Duration', 'Casting Time'].each_with_index do |header, index|
               %th{style: 'white-space: nowrap'}
                 = header
-                - if index < 7
+                - if index < 8
                   = icon('sort', '', class: 'sort-icon glyph-grey')
         %tbody
           - @spells.each do |id, spell|
-            %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsm': [spell['v'], spell['s'], spell['m']]}
+            %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsmr': [spell['v'], spell['s'], spell['m'], spell['r']]}
               %td.expand{onselectstart: 'return false'}
                 %span.glyphicon.glyphicon-resize-full
               %td
@@ -108,11 +123,13 @@
                 %span.glyphicon{class: "glyphicon-#{spell['s'] ? 'ok' : 'remove'}"}
               %td{style: 'text-align: center'}
                 %span.glyphicon{class: "glyphicon-#{spell['m'] ? 'ok' : 'remove'}"}
+              %td{style: 'text-align: center'}
+                %span.glyphicon{class: "glyphicon-#{spell['r'] ? 'ok' : 'remove'}"}
               %td= spell['range']
               %td= spell['duration']
               %td= spell['casting_time']
             %tr.details.details-display-none
-              %td{colspan: 12}
+              %td{colspan: 13}
                 %table.table.details-table{style: 'background-color: #e7e7e8'}
                   %tr
                     - if spell['m']
