@@ -114,7 +114,7 @@
                 - else
                   %i.starable.fa.fa-star-o
               %td= spell['name']
-              %td{style: 'text-align: center'}= spell['level']
+              %td{style: 'text-align: center'}= spell['level'] == 0 ? 'Cantrip' : spell['level']
               %td= spell['school']
               %td= spell['classes'].sort.join(', ')
               %td{style: 'text-align: center'}
