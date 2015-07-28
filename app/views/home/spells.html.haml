@@ -31,21 +31,28 @@
                   %span
           .col-xs-6{style: 'padding-left: 10px; padding-right: 0px'}
             %h4{onselectstart: 'return false'}
-              %span.toggle-all#toggle-vsmr{'data-toggle-class': 'vsmr-checkbox'}
+              %span.toggle-all#toggle-vsmrc{'data-toggle-class': 'vsmrc-checkbox'}
                 = icon('plus-square')
-              V, S, M, R
-            %div{onselectstart: 'return false', style: 'text-align: left; margin-left: 40px'}
-              %label.checkbox-inline
-                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-v', value: 'v'} V
+              V, S, M
               %br
-              %label.checkbox-inline
-                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-s', value: 's'} S
-              %br
-              %label.checkbox-inline
-                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-m', value: 'm'} M
-              %br
-              %label.checkbox-inline
-                %input.vsmr-checkbox{type: 'checkbox', id: 'vmsr-r', value: 'r'} R
+              R, C
+            .container-fluid
+              .row
+                .col-xs-4{style: 'padding-left: 0px; padding-right: 0px; text-align: left; margin-left: 10px', onselectstart: 'return false'}
+                  %label.checkbox-inline
+                    %input.vsmrc-checkbox{type: 'checkbox', id: 'vmsrc-v', value: 'v'} V
+                  %br
+                  %label.checkbox-inline
+                    %input.vsmrc-checkbox{type: 'checkbox', id: 'vmsrc-s', value: 's'} S
+                  %br
+                  %label.checkbox-inline
+                    %input.vsmrc-checkbox{type: 'checkbox', id: 'vmsrc-m', value: 'm'} M
+                .col-xs-4{style: 'padding-left: 0px; padding-right: 0px; text-align: left; margin-left: 10px', onselectstart: 'return false'}
+                  %label.checkbox-inline
+                    %input.vsmrc-checkbox{type: 'checkbox', id: 'vmsrc-r', value: 'r'} R
+                  %br
+                  %label.checkbox-inline
+                    %input.vsmrc-checkbox{type: 'checkbox', id: 'vmsrc-c', value: 'c'} C
       %br
       %h4{onselectstart: 'return false'}
         %span.toggle-all#toggle-school{'data-toggle-class': 'school-checkbox'}
@@ -59,17 +66,32 @@
                 %label.checkbox-inline
                   %input.school-checkbox{type: 'checkbox', id: "school-#{school}", value: school}= school
       %br
-      %h4{onselectstart: 'return false'}
-        %span.toggle-all#toggle-class{'data-toggle-class': 'class-checkbox'}
-          = icon('plus-square')
-        Classes
-      %div{style: 'text-align: left; margin-left: 23px; margin-right: 18px', onselectstart: 'return false'}
-        - @classes.each_slice(2) do |dnd_classes|
-          .row
-            - dnd_classes.each do |dnd_class|
-              .col-xs-6
-                %label.checkbox-inline
-                  %input.class-checkbox{type: 'checkbox', id: "class-#{dnd_class}", value: dnd_class}= dnd_class
+      .container-fluid
+        .row
+          .col-xs-9{style: 'padding-left: 0px; padding-right: 10px'}
+            %h4{onselectstart: 'return false'}
+              %span.toggle-all#toggle-class{'data-toggle-class': 'class-checkbox'}
+                = icon('plus-square')
+              Classes
+            %div{style: 'text-align: left; margin-left: 10px; margin-right: 35px', onselectstart: 'return false'}
+              - @classes.each_slice(2) do |dnd_classes|
+                .row
+                  - dnd_classes.each do |dnd_class|
+                    .col-xs-6
+                      %label.checkbox-inline
+                        %input.class-checkbox{type: 'checkbox', id: "class-#{dnd_class}", value: dnd_class}= dnd_class
+          .col-xs-3{style: 'padding-left: 0px; padding-right: 10px'}
+            %h4{style: 'padding-top: 20px', onselectstart: 'return false'}
+              %span.toggle-all#toggle-ref{'data-toggle-class': 'ref-checkbox'}
+                = icon('plus-square')
+              Ref
+            %div{onselectstart: 'return false', style: 'text-align: left'}
+              %label.checkbox-inline
+                %input.ref-checkbox{type: 'checkbox', id: 'ref-phb', value: 'PHB'} PHB
+              %br
+              %label.checkbox-inline
+                %input.ref-checkbox{type: 'checkbox', id: 'ref-ee', value: 'EE'} EE
+
       %br
       %span.spell-count
         0 spells
@@ -98,14 +120,16 @@
             %th{style: 'white-space: nowrap'}
               = icon('star', '')
               = icon('sort', '', class: 'sort-icon glyph-grey')
-            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'R', 'Range', 'Duration', 'Casting Time'].each_with_index do |header, index|
+            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'R', 'C', 'Range', 'Duration', 'Casting Time'].each_with_index do |header, index|
               %th{style: 'white-space: nowrap'}
                 = header
-                - if index < 8
+                - if index < 9
                   = icon('sort', '', class: 'sort-icon glyph-grey')
         %tbody
           - @spells.each do |id, spell|
-            %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'], 'data-school': spell['school'], 'data-classes': spell['classes'], 'data-vsmr': [spell['v'], spell['s'], spell['m'], spell['r']]}
+            %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'],
+            'data-school': spell['school'], 'data-classes': spell['classes'],
+            'data-vsmrc': [spell['v'], spell['s'], spell['m'], spell['ritual'], spell['concentration']], 'data-ref': spell['reference'][0..-6]}
               %td.expand{onselectstart: 'return false'}
                 %span.glyphicon.glyphicon-resize-full
               %td
@@ -124,12 +148,14 @@
               %td{style: 'text-align: center'}
                 %span.glyphicon{class: "glyphicon-#{spell['m'] ? 'ok' : 'remove'}"}
               %td{style: 'text-align: center'}
-                %span.glyphicon{class: "glyphicon-#{spell['r'] ? 'ok' : 'remove'}"}
+                %span.glyphicon{class: "glyphicon-#{spell['ritual'] ? 'ok' : 'remove'}"}
+              %td{style: 'text-align: center'}
+                %span.glyphicon{class: "glyphicon-#{spell['concentration'] ? 'ok' : 'remove'}"}
               %td= spell['range']
               %td= spell['duration']
               %td= spell['casting_time']
             %tr.details.details-display-none
-              %td{colspan: 13}
+              %td{colspan: 14}
                 %table.table.details-table{style: 'background-color: #e7e7e8'}
                   %tr
                     - if spell['m']
@@ -139,8 +165,11 @@
                     %td
                       %h5 Short Description
                       %p= spell['short_description']
+                    %td{style: 'width: 10%'}
+                      %h5 Reference
+                      = spell['reference'][0..-5] + spell['reference'][-4..-1].to_i.to_s
                   %tr
-                    %td{colspan: spell['m'] ? 2 : 1}
+                    %td{colspan: spell['m'] ? 3 : 2}
                       %h5 Description
                       = spell['description']
       = render 'layouts/footer'

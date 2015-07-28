@@ -26,9 +26,9 @@ $(document).ready(function() {
     , headers: {
         0: {sorter: false}
       , 1: {sorter: 'truefalse'}
-      , 10: {sorter: false}
       , 11: {sorter: false}
       , 12: {sorter: false}
+      , 13: {sorter: false}
     }
   })
 
@@ -120,22 +120,56 @@ $(document).ready(function() {
     }
   })
 
-  $('.vsmr-checkbox').click(function() {
-    var ok_vsmr = $('.vsmr-checkbox').map(function() { return $(this).is(':checked') })
-      , vsmr_data
-      , has_true = $.inArray(true, ok_vsmr) != -1
-      , has_false = $.inArray(false, ok_vsmr) != -1
+  $('.vsmrc-checkbox').click(function() {
+    var ok_vsmrc = $('.vsmrc-checkbox').map(function() { return $(this).is(':checked') })
+      , vsmrc_data
+      , has_true = $.inArray(true, ok_vsmrc) != -1
+      , has_false = $.inArray(false, ok_vsmrc) != -1
 
     if (!has_true) {
-      setToggleState($('#toggle-vsmr'), true)
+      setToggleState($('#toggle-vsmrc'), true)
       filter_all()
     } else if ($(this).is(':checked')) {
-      if (!has_false) setToggleState($('#toggle-vsmr'), false)
+      if (!has_false) setToggleState($('#toggle-vsmrc'), false)
       filter_all()
     } else {
       $('.summary-visible').each(function () {
-        vsmr_data = $(this).data('vsmr')
-        if ((!ok_vsmr[0] || ok_vsmr[0] && !vsmr_data[0]) && (!ok_vsmr[1] || ok_vsmr[1] && !vsmr_data[1]) && (!ok_vsmr[2] || ok_vsmr[2] && !vsmr_data[2]) && (!ok_vsmr[3] || ok_vsmr[3] && !vsmr_data[3]))
+        vsmrc_data = $(this).data('vsmrc')
+        if ((!ok_vsmrc[0] || ok_vsmrc[0] && !vsmrc_data[0])
+          && (!ok_vsmrc[1] || ok_vsmrc[1] && !vsmrc_data[1])
+          && (!ok_vsmrc[2] || ok_vsmrc[2] && !vsmrc_data[2])
+          && (!ok_vsmrc[3] || ok_vsmrc[3] && !vsmrc_data[3])
+          && (!ok_vsmrc[4] || ok_vsmrc[4] && !vsmrc_data[4]))
+          toggle_summary_row(this)
+      })
+      update_spell_count()
+    }
+  })
+
+  $('.ref-checkbox').click(function() {
+    var ok_ref = {}
+      , has_true = false
+      , has_false = false
+
+    $('.ref-checkbox').each(function() {
+      var checked = $(this).is(':checked')
+      ok_ref[$(this).attr('value')] = checked
+      if (checked) {
+        has_true = true
+      } else {
+        has_false = true
+      }
+    })
+
+    if (!has_true) {
+      setToggleState($('#toggle-ref'), true)
+      filter_all()
+    } else if ($(this).is(':checked')) {
+      if (!has_false) setToggleState($('#toggle-ref'), false)
+      filter_all()
+    } else {
+      $('.summary-visible').each(function () {
+        if (!ok_ref[$(this).data('ref')])
           toggle_summary_row(this)
       })
       update_spell_count()
@@ -252,12 +286,14 @@ function toggle_summary_row(row) {
 
 function filter_all() {
   var ok_levels = $('.level-checkbox').map(function() { return $(this).is(':checked') })
-    , ok_vsmr = $('.vsmr-checkbox').map(function() { return $(this).is(':checked') })
-    , vsmr_data
+    , ok_vsmrc = $('.vsmrc-checkbox').map(function() { return $(this).is(':checked') })
+    , vsmrc_data
     , ok_schools = {}
     , schools_en = false
     , ok_classes = {}
     , classes_en = false
+    , ok_ref = {}
+    , ref_en = false
     , name = $('.search-box').val().toLowerCase().trim()
 
   $('.school-checkbox').each(function() {
@@ -270,9 +306,14 @@ function filter_all() {
     ok_classes[$(this).attr('value')] = checked
     classes_en = classes_en || checked
   })
+  $('.ref-checkbox').each(function() {
+    var checked = $(this).is(':checked')
+    ok_ref[$(this).attr('value')] = checked
+    ref_en = ref_en || checked
+  })
 
-  if ($.inArray(true, ok_vsmr) == -1) {
-    ok_vsmr = [true, true, true, true]
+  if ($.inArray(true, ok_vsmrc) == -1) {
+    ok_vsmrc = [true, true, true, true]
   }
   if ($.inArray(true, ok_levels) == -1) {
     ok_levels = [true, true, true, true, true, true, true, true, true, true]
@@ -285,13 +326,22 @@ function filter_all() {
     for (var class_name in ok_classes)
       ok_classes[class_name] = true
   }
+  if (!ref_en) {
+    for (var reference in ok_ref)
+      ok_ref[reference] = true
+  }
 
   $('.summary').each(function() {
-    vsmr_data = $(this).data('vsmr')
+    vsmrc_data = $(this).data('vsmrc')
     if (ok_levels[$(this).data('level')]
-        && ((ok_vsmr[0] && vsmr_data[0]) || (ok_vsmr[1] && vsmr_data[1]) || (ok_vsmr[2] && vsmr_data[2]) || (ok_vsmr[3] && vsmr_data[3]))
+        && ((ok_vsmrc[0] && vsmrc_data[0])
+          || (ok_vsmrc[1] && vsmrc_data[1])
+          || (ok_vsmrc[2] && vsmrc_data[2])
+          || (ok_vsmrc[3] && vsmrc_data[3])
+          || (ok_vsmrc[4] && vsmrc_data[4]))
         && ok_schools[$(this).data('school')]
         && any_in_map($(this).data('classes'), ok_classes)
+        && ok_ref[$(this).data('ref')]
         && (name.length == 0 || $(this).data('name').toLowerCase().indexOf(name) >= 0)) {
       if ($(this).hasClass('summary-invisible'))
         toggle_summary_row(this)
