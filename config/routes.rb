@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'home#spells'
   get 'spells' => 'home#spells'
-  get 'spells/:spell_code' => 'home#spells_code'
+  get 'spells/:spell_code' => 'home#spells_code', as: 'spell_code'
   post 'spells' => 'home#update_spells'
   get 'dice'=> 'home#dice'
 

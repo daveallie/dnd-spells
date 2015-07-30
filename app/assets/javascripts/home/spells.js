@@ -248,6 +248,7 @@ $(document).ready(function() {
     $(this).closest("." + $(this).attr("data-hide")).hide(300);
   });
 
+  $('[data-toggle="tooltip"]').tooltip();
   update_spell_count()
   $('#cover').fadeOut(1000);
 })

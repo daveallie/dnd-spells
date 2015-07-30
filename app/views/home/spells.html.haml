@@ -109,10 +109,13 @@
         .col-xs-2{style: 'padding-top: 20px'}
           .btn.btn-success.save-button#save-new{style: "#{'display: none' unless @spell_code}"}= "Save#{' as new' if @spell_code}"
           %br
-          .btn.btn-info.save-button#save-update{style: "#{'display: none' unless @spell_code}"} Update
+          .btn.btn-primary.save-button#save-update{style: "#{'display: none' unless @spell_code}"} Update
         .col-xs-8
           %h1{style: 'margin-bottom: 10px'} Spell Book
           %h2#spell-code{style: "margin-top: 0; margin-bottom: 10px; #{'display: none' unless @spell_code}"}= @spell_code || ''
+        .col-xs-2{style: 'padding-top: 35px; text-align: right'}
+          - if @spell_code
+            = link_to 'Generate PDF', '#', class: 'btn btn-info', 'data-toggle': 'tooltip', 'data-placement': 'left', 'title': 'Coming Soon'
       %table.full-table.table{style: 'margin-top: 30px'}
         %thead
           %tr
@@ -120,11 +123,13 @@
             %th{style: 'white-space: nowrap'}
               = icon('star', '')
               = icon('sort', '', class: 'sort-icon glyph-grey')
-            - ['Name', 'Level', 'School', 'Classes', 'V', 'S', 'M', 'R', 'C', 'Range', 'Duration', 'Casting Time'].each_with_index do |header, index|
+            - %w(Name Level School Classes V S M R C).each do |header|
               %th{style: 'white-space: nowrap'}
                 = header
-                - if index < 9
-                  = icon('sort', '', class: 'sort-icon glyph-grey')
+                = icon('sort', '', class: 'sort-icon glyph-grey')
+            - ['Range', 'Duration', 'Casting Time'].each do |header|
+              %th{style: 'white-space: nowrap'}
+                = header
         %tbody
           - @spells.each do |id, spell|
             %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'],

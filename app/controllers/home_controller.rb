@@ -7,20 +7,27 @@ class HomeController < ApplicationController
 
   # GET /spells/:spell_code
   def spells_code
-    spell_code_map = SpellCodeMap.where(key: params[:spell_code]).first
+    @spell_code = params[:spell_code]
+    spell_code_map = SpellCodeMap.where(key: @spell_code).first
     if spell_code_map
       spell_code_map.touch
       get_all_spells
-      @spell_code = params[:spell_code]
       spell_code_map.spells.each do |spell_id|
         @spells[spell_id][:starred] = true
       end
+      @spells = @spells.sort_by {|k, v| v['name']}
+      respond_to do |format|
+        format.html do
+          render 'spells'
+        end
+        format.pdf do
+          pdf = SpellBookPdf.new(@spells, view_context)
+          send_data pdf.render, filename: "spellbook_#{@spell_code}.pdf", type: 'application/pdf', disposition: 'inline'
+        end
+      end
     else
       redirect_to spells_path
-      return
     end
-    @spells = @spells.sort_by {|k, v| v['name']}
-    render 'spells'
   end
 
   # POST /spells
@@ -61,6 +68,7 @@ class HomeController < ApplicationController
 
   # GET /dice
   def dice
+
   end
 
   def get_all_spells
