@@ -34,6 +34,8 @@ gem 'font-awesome-sass', '~> 4.3.0'
 gem 'airbrake', '~> 4.3'
 gem 'dnd-namer'
 gem 'prawn', '~> 2.0'
+gem 'prawn-table', '~> 0.2'
+gem 'prawn-icon', '~> 0.7'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views

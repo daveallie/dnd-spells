@@ -3,6 +3,5 @@ Airbrake.configure do |config|
   config.host    = 'daveallie-errors.herokuapp.com'
   config.port    = 443
   config.secure  = config.port == 443
-  config.environment_name = 'prod'#ENV['RACK_ENV'] || 'development'
-  config.development_environments = []
+  config.environment_name = ENV['RACK_ENV'] || 'development'
 end

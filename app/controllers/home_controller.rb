@@ -15,13 +15,13 @@ class HomeController < ApplicationController
       spell_code_map.spells.each do |spell_id|
         @spells[spell_id][:starred] = true
       end
-      @spells = @spells.sort_by {|k, v| v['name']}
       respond_to do |format|
         format.html do
+          @spells = @spells.sort_by {|k, v| v['name']}
           render 'spells'
         end
         format.pdf do
-          pdf = SpellBookPdf.new(@spells, view_context)
+          pdf = SpellBookPdf.new(spell_code_map.spells.map{|spell_id| @spells[spell_id]}, view_context)
           send_data pdf.render, filename: "spellbook_#{@spell_code}.pdf", type: 'application/pdf', disposition: 'inline'
         end
       end
