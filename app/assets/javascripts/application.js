@@ -25,6 +25,14 @@ __insp.push(['wid', 116609357]);
 })();
   <!-- End Inspectlet Embed Code -->
 
+//$(document).on('page:change', function() {
+//  if (window._gaq != null) {
+//    return _gaq.push(['_trackPageview']);
+//  } else if (window.pageTracker != null) {
+//    return pageTracker._trackPageview();
+//  }
+//});
+
 function findBootstrapEnvironment() {
   var envs = ['xs', 'sm', 'md', 'lg']
     , $el = $('<div>')
