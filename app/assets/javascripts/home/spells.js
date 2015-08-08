@@ -227,7 +227,9 @@ $(document).ready(function() {
       title: message,
       inputType: "password",
       callback: function(password) {
-        ajax_save(save_update_success, save_update_fail, spells_ids, spell_code, password)
+        if (password != null) {
+          ajax_save(save_update_success, save_update_fail, spells_ids, spell_code, password)
+        }
       }
     });
   })
