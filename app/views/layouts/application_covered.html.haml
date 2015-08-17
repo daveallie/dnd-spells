@@ -27,8 +27,6 @@
     = yield(:head)
     = render 'layouts/shim'
   %body
+    #cover
     = render 'layouts/header'
-    .container
-      = render 'layouts/notice_div'
-      = yield
-      = render 'layouts/footer'
+    = yield

@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  layout 'application_covered'
+
   # GET /spells, GET /
   def spells
     @covered = true
