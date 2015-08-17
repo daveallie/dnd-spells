@@ -115,7 +115,7 @@
           %h2#spell-code{style: "margin-top: 0; margin-bottom: 10px; #{'display: none' unless @spell_code}"}= @spell_code || ''
         .col-xs-2{style: 'padding-top: 35px; text-align: right'}
           - if @spell_code
-            = link_to 'Generate PDF', '#', class: 'btn btn-info', 'data-toggle': 'tooltip', 'data-placement': 'left', 'title': 'Coming Soon'
+            = link_to 'Generate PDF', spell_code_path(@spell_code, format: 'pdf'), class: 'btn btn-info'
       %table.full-table.table{style: 'margin-top: 30px'}
         %thead
           %tr

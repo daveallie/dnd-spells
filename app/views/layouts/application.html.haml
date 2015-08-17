@@ -27,6 +27,7 @@
     = yield(:head)
     = render 'layouts/shim'
   %body
-    #cover
+    - if @covered
+      #cover
     = render 'layouts/header'
     = yield

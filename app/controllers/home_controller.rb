@@ -1,12 +1,14 @@
 class HomeController < ApplicationController
   # GET /spells, GET /
   def spells
+    @covered = true
     get_all_spells
     @spells = @spells.sort_by {|k, v| v['name']}
   end
 
   # GET /spells/:spell_code
   def spells_code
+    @covered = true
     @spell_code = params[:spell_code]
     spell_code_map = SpellCodeMap.where(key: @spell_code).first
     if spell_code_map
@@ -68,7 +70,7 @@ class HomeController < ApplicationController
 
   # GET /dice
   def dice
-
+    @covered = true
   end
 
   def get_all_spells

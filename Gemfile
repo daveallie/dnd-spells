@@ -36,6 +36,7 @@ gem 'dnd-namer'
 gem 'prawn', '~> 2.0'
 gem 'prawn-table', '~> 0.2'
 gem 'prawn-icon', '~> 0.7'
+gem 'devise'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views

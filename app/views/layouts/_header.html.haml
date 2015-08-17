@@ -11,6 +11,10 @@
       %ul.nav.navbar-nav.navbar-right
         %li{class: "#{'active' if (controller_name == 'home' && action_name == 'spells') || (controller_name == 'home' && action_name == 'spells_code')}"}= link_to 'Spell Book', root_path
         %li{class: "#{'active' if controller_name == 'home' && action_name == 'dice'}"}= link_to 'Dice', dice_path
+        - if user_signed_in?
+          %li= link_to('Logout', destroy_user_session_path, :method => :delete)
+        - else
+          %li= link_to('Login', new_user_session_path)
 
       -#%nav
       -#%ul.nav.navbar-nav.navbar-right
