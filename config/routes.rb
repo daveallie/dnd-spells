@@ -31,4 +31,6 @@ Rails.application.routes.draw do
     get    'confirmation/new' => 'devise/confirmations#new', as: :new_user_confirmation
     get    'confirmation' => 'devise/confirmations#show'
   end
+
+  get 'dashboard' => 'dashboard#index'
 end

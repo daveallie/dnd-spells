@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
          :validatable, :confirmable, :authentication_keys => [:login]
   attr_accessor :login
 
-  validates :username, :presence => true, :uniqueness => { :case_sensitive => false } # etc.
+  validates :username, :presence => true, :uniqueness => { :case_sensitive => false },
+            format: { with: /\A[a-zA-Z0-9_.\-]+\Z/ }, length: { in: 1..30 }
 
   has_many :spell_books
   has_many :spell_code_maps, through: :spell_books
