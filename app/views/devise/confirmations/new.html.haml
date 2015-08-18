@@ -1,4 +1,4 @@
-%h2 Resend confirmation instructions
+%h1 Resend confirmation instructions
 .row
   .col-lg-6.col-lg-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
     = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
@@ -12,4 +12,5 @@
         .form-actions
           = f.submit 'Resend confirmation instructions', {class: 'btn btn-success', 'data-loading-text': 'Sending...'}
 
+    %br
     = render 'devise/shared/links'
