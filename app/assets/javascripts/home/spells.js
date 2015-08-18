@@ -252,7 +252,7 @@ $(document).ready(function() {
 
   $('[data-toggle="tooltip"]').tooltip();
   update_spell_count()
-  $('#cover').fadeOut(1000);
+  uncover()
 })
 
 function any_in_map(keys, map) {

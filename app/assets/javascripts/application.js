@@ -32,6 +32,10 @@ __insp.push(['wid', 116609357]);
 //  }
 //});
 
+function uncover() {
+  $('#cover').fadeOut(1000);
+}
+
 function findBootstrapEnvironment() {
   var envs = ['xs', 'sm', 'md', 'lg']
     , $el = $('<div>')
