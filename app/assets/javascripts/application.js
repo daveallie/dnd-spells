@@ -14,24 +14,16 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-sprockets
-//= require bootbox.min.js
+//= require third_party
+//= require spells
 
-<!-- Begin Inspectlet Embed Code -->
-window.__insp = window.__insp || [];
-__insp.push(['wid', 116609357]);
-(function() {
-  function __ldinsp(){var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
-  document.readyState != "complete" ? (window.attachEvent ? window.attachEvent('onload', __ldinsp) : window.addEventListener('load', __ldinsp, false)) : __ldinsp();
-})();
-  <!-- End Inspectlet Embed Code -->
+function uncover() {
+  $('#cover').fadeOut(1000);
+}
 
-//$(document).on('page:change', function() {
-//  if (window._gaq != null) {
-//    return _gaq.push(['_trackPageview']);
-//  } else if (window.pageTracker != null) {
-//    return pageTracker._trackPageview();
-//  }
-//});
+$(window).on('cover-ready', function() {
+  uncover()
+})
 
 function findBootstrapEnvironment() {
   var envs = ['xs', 'sm', 'md', 'lg']

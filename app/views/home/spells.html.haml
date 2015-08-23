@@ -1,6 +1,3 @@
-- content_for :head do
-  = javascript_include_tag 'jquery.tablesorter.mod'
-  = javascript_include_tag 'home/spells'
 - content_for :title do
   = 'Spell Book'
 
@@ -96,7 +93,7 @@
       %span.spell-count
         0 spells
     .container-fluid#main-content{style: 'height: 100%; overflow: auto; margin-left: 260px; margin-right: 20px'}
-      = render 'layouts/notice_div'
+      = render 'common/notice_div'
 
       .alert.center.save-update-message#save-update-success-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:success)}
         %button.close{'data-hide': 'alert'} ×
@@ -177,5 +174,8 @@
                     %td{colspan: spell['m'] ? 3 : 2}
                       %h5 Description
                       = raw spell['description']
-      = render 'layouts/footer'
+      = render 'common/footer'
       = debug(params) if Rails.env.development?
+
+:javascript
+  Spell.init()
