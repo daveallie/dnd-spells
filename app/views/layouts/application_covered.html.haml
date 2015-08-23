@@ -25,8 +25,9 @@
     %meta{name: 'theme-color', content: '#ffffff'}
     = csrf_meta_tags
     = yield(:head)
-    = render 'layouts/shim'
+    = render 'common/head'
+    = render 'common/shim'
   %body
     #cover
-    = render 'layouts/header'
+    = render 'common/header'
     = yield

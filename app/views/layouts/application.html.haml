@@ -25,10 +25,11 @@
     %meta{name: 'theme-color', content: '#ffffff'}
     = csrf_meta_tags
     = yield(:head)
-    = render 'layouts/shim'
+    = render 'common/head'
+    = render 'common/shim'
   %body
-    = render 'layouts/header'
+    = render 'common/header'
     .container
-      = render 'layouts/notice_div'
+      = render 'common/notice_div'
       = yield
-      = render 'layouts/footer'
+      = render 'common/footer'
