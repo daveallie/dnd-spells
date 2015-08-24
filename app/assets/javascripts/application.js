@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require third_party
+//= require dashboard
 //= require spells
 
 function uncover() {
