@@ -74,9 +74,12 @@ class HomeController < ApplicationController
   def get_all_spells
     @spells = HashWithIndifferentAccess.new
     schools = HashWithIndifferentAccess.new
+    dnd_classes = HashWithIndifferentAccess.new
     School.all.each{|school| schools[school.id] = school.name}
     Spell.all.each{|spell| @spells[spell.id] = spell.attributes.with_indifferent_access.reject{|k| k == 'id' || k == 'school_id'}.merge({school: schools[spell.school_id]})}
-    Spell.joins(:dnd_classes).select('spells.id, dnd_classes.name').each{|spell_class| (@spells[spell_class.id][:classes] ||= []) << spell_class.name}
+
+    DndClass.all.each{|dnd_class| dnd_classes[dnd_class.id] = dnd_class.name}
+    Mastery.all.each{|mastery| (@spells[mastery.spell_id][:classes] ||= []) << dnd_classes[mastery.dnd_class_id]}
     @classes = DndClass.order(name: :asc).pluck(:name)
     @schools = schools.values.sort
   end
