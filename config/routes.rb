@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get  'spells/:spell_code' => 'home#spells_code', as: 'spell_code'
   post 'spells' => 'home#update_spells'
   get  'dice'=> 'home#dice'
+  post 'spell_book' => 'dashboard#update_spell_book'
+  delete 'spell_book' => 'dashboard#delete_spell_book'
 
   # devise_for :user, path: '', path_names: {
   #                     sign_in: 'login', sign_out: 'logout',

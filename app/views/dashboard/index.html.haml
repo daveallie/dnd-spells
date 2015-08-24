@@ -1,8 +1,32 @@
 - content_for :title do
   = 'Dashboard'
-= render 'shared/coming_soon'
 
+%h1= "#{current_user.username}'s Spell Lists"
+
+- if @spell_books.count > 0
+  %table.table
+    - @spell_books.each do |spell_book|
+      - scm = spell_book.spell_code_map
+      - stats = scm_stats(scm)
+      %tr{'data-spell-book-id': spell_book.id}
+        %td
+          %h3<
+            = link_to(spell_code_path(scm.key)) do
+              %span.nickname= spell_book.nickname.nil? ? scm.key : spell_book.nickname
+            = surround ' (', ')' do
+              = scm.key
+            = icon('edit', '', {class: 'edit-nick-btn', style: 'margin-left: 10px'})
+            = icon('times', '', {class: 'delete-book-btn', style: 'margin-left: 2px;'})
+          - if scm.spells.count == 0
+            Contains no spells.
+          - else
+            %p= "Contains #{pluralize(stats[:count], 'spell')}, for level #{stats[:levels].to_sentence}, #{stats[:classes].map{|dnd_class| dnd_class.pluralize}.to_sentence} from the #{stats[:schools].to_sentence} school#{stats[:schools].count == 1 ? '' : 's'} of magic."
+
+- else
+  %h3<
+    You don't have any spell list, add spell lists using the add tool, or make a new spell list by starring spells from the
+    = succeed '.' do
+      = link_to(spells_path) do
+        = 'Spell Book'
 :javascript
-  $(document).ready(function() {
-    $(window).trigger('cover-ready')
-  })
+  Dashboard.init()
