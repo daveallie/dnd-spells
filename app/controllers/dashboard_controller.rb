@@ -43,7 +43,7 @@ class DashboardController < ApplicationController
               "Contains #{pluralize(stats[:count], 'spell')}, for level #{stats[:levels].to_sentence}, #{stats[:classes].map { |dnd_class| dnd_class.pluralize }.to_sentence} from the #{stats[:schools].to_sentence} school#{stats[:schools].count == 1 ? '' : 's'} of magic."
             end}
           </p></td></tr>"
-      render json: {row: row}, status: 200
+      render json: {row: row, id: spell_book.id}, status: 200
     else
       render json: {message: message}, status: status
     end

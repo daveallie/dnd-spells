@@ -38,8 +38,26 @@ Dashboard.Add = {
     $success_flash.children('span').html(Dashboard.Add.Consts.SUCCESS_MESSAGE)
     $success_flash.show(300)
 
+    var $table = $('#spell-list')
+      , $message = $('#no-spell-list-message')
+
+    if ($table.hasClass('hidden')) {
+      $message.addClass('hidden')
+      $table.removeClass('hidden')
+    }
+
     // Insert row at top of table
-    $(data.row).insertBefore('#spell-list > tbody > tr:first')
+    $table.prepend(data.row)
+
+    $row = $('tr[data-spell-book-id="' + data.id + '"]')
+
+    $row.find('.edit-nick-btn').on('click', function() {
+      Dashboard.Saving.bootbox($(this).parents('tr').data('spell-book-id'), $(this).parent().find('.nickname'))
+    })
+
+    $row.find('.delete-book-btn').on('click', function() {
+      Dashboard.Delete.bootbox($(this).parents('tr').data('spell-book-id'), $(this).parents('tr'))
+    })
   },
 
   save_fail: function (jqXHR, textStatus) {
@@ -144,6 +162,14 @@ Dashboard.Delete = {
     $('.save-update-message').hide()
     $success_flash.children('span').html(Dashboard.Delete.Consts.SUCCESS_MESSAGE)
     $success_flash.show(300)
+
+    var $table = $('#spell-list')
+      , $message = $('#no-spell-list-message')
+
+    if ($table.find('tr').length == 1) {
+      $table.addClass('hidden')
+      $message.removeClass('hidden')
+    }
 
     $(spell_book_row).remove()
   },

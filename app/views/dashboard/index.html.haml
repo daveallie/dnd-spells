@@ -9,28 +9,26 @@
     .pull-right.btn.btn-success.add-book-btn{style: 'padding: 0px 10px'}
       %h5= icon('plus', 'add')
 
-- if @spell_books.count > 0
-  %table#spell-list.table
-    - @spell_books.each do |spell_book|
-      - scm = spell_book.spell_code_map
-      - stats = scm_stats(scm)
-      %tr{'data-spell-book-id': spell_book.id}
-        %td
-          %h3<
-            = link_to(spell_code_path(scm.key)) do
-              %span.nickname= spell_book.nickname.nil? ? scm.key : spell_book.nickname
-            = surround ' (', ')' do
-              = scm.key
-            = icon('edit', '', {class: 'edit-nick-btn', style: 'margin-left: 10px'})
-            = icon('times', '', {class: 'delete-book-btn', style: 'margin-left: 2px;'})
-          - if scm.spells.count == 0
-            %p= 'Contains no spells.'
-          - else
-            %p= "Contains #{pluralize(stats[:count], 'spell')}, for level #{stats[:levels].to_sentence}, #{stats[:classes].map{|dnd_class| dnd_class.pluralize}.to_sentence} from the #{stats[:schools].to_sentence} school#{stats[:schools].count == 1 ? '' : 's'} of magic."
-
-- else
+%table#spell-list.table{class: "#{'hidden' if @spell_books.count == 0}"}
+  - @spell_books.each do |spell_book|
+    - scm = spell_book.spell_code_map
+    - stats = scm_stats(scm)
+    %tr{'data-spell-book-id': spell_book.id}
+      %td
+        %h3<
+          = link_to(spell_code_path(scm.key)) do
+            %span.nickname= spell_book.nickname.nil? ? scm.key : spell_book.nickname
+          = surround ' (', ')' do
+            = scm.key
+          = icon('edit', '', {class: 'edit-nick-btn', style: 'margin-left: 10px'})
+          = icon('times', '', {class: 'delete-book-btn', style: 'margin-left: 2px;'})
+        - if scm.spells.count == 0
+          %p= 'Contains no spells.'
+        - else
+          %p= "Contains #{pluralize(stats[:count], 'spell')}, for level #{stats[:levels].to_sentence}, #{stats[:classes].map{|dnd_class| dnd_class.pluralize}.to_sentence} from the #{stats[:schools].to_sentence} school#{stats[:schools].count == 1 ? '' : 's'} of magic."
+#no-spell-list-message{class: "#{'hidden' unless @spell_books.count == 0}"}
   %h3<
-    You don't have any spell list, add spell lists using the add tool, or make a new spell list by starring spells from the
+    You don't have any spell lists, add spell lists using the add tool, or make a new spell list by starring spells from the
     = succeed '.' do
       = link_to(spells_path) do
         = 'Spell Book'
