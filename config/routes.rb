@@ -36,4 +36,6 @@ Rails.application.routes.draw do
   end
 
   get 'dashboard' => 'dashboard#index'
+  get 'feedback' => 'feedback#index'
+  post 'feedback' => 'feedback#save'
 end

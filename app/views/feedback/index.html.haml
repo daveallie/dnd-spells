@@ -1,0 +1,13 @@
+- content_for :title do
+  = 'Feedback'
+
+%h1 Feedback
+.row
+  .col-sm-8.col-sm-offset-2.col-xs-12
+    = bootstrap_form_tag url: feedback_path do |f|
+      = f.text_area :feedback, hide_label: true, placeholder: 'Something broken or something missing? Let me know!', rows: 10, class: 'required'
+      - unless signed_in?
+        = f.text_field :name, placeholder: 'Optional'
+        = f.email_field :email, placeholder: 'Optional'
+
+      = f.submit 'Submit', {class: 'btn btn-success', 'data-loading-text': 'Submitting'}
