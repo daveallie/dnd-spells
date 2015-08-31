@@ -23,6 +23,9 @@
               %li= link_to('Logout', destroy_user_session_path, :method => :delete)
         - else
           %li{class: "#{'active' if controller_name == 'sessions'}"}= link_to('Login', new_user_session_path)
+        %li{'data-toggle': 'tooltip', title: 'Feedback', class: "#{'active' if controller_name == 'feedback'}"}
+          = link_to(feedback_path) do
+            = icon('comments')
 
       -#%nav
       -#%ul.nav.navbar-nav.navbar-right

@@ -27,7 +27,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1'
 gem 'rails-html-sanitizer', '~> 1.0'
 gem 'puma', '~> 2.12'
+
 gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap_form'
+
 gem 'autoprefixer-rails', '~> 5.2'
 gem 'haml-rails', '~> 0.9'
 gem 'font-awesome-sass', '~> 4.3.0'

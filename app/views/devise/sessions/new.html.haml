@@ -3,27 +3,12 @@
 %h1 Log In
 .row
   .col-lg-6.col-lg-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
-    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-      %fieldset
-        .control-group
-          = f.label :login
-          %em (username or email)
-          .controls
-            = f.text_field :login, autofocus: true
-
-        .control-group
-          = f.label :password
-          .controls
-            = f.password_field :password, autocomplete: "off"
-
-        - if devise_mapping.rememberable?
-          %br
-          .control-group{style: 'margin-left: 20px;'}
-            = f.label :remember_me, class: 'checkbox' do
-              = f.check_box :remember_me
-              Remember Me
-
-        .form-actions
-          = f.submit 'Log In', {class: 'btn btn-success', 'data-loading-text': 'Logging in...'}
+    = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = f.text_field :login, autofocus: true, label: 'Login (Username or Email)'
+      = f.password_field :password, autocomplete: "off"
+      - if devise_mapping.rememberable?
+        %br
+        = f.check_box :remember_me
+      = f.submit 'Log In', {class: 'btn btn-success', 'data-loading-text': 'Logging in...'}
     %br
     = render 'devise/shared/links'
