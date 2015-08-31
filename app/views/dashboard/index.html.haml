@@ -1,10 +1,16 @@
 - content_for :title do
   = 'Dashboard'
 
-%h1= "#{current_user.username}'s Spell Lists"
+= render 'common/permanent_notices'
+.row
+  .col-xs-8.col-xs-offset-2
+    %h1= "#{current_user.username}'s Spell Lists"
+  .col-xs-2{style: 'padding-top: 25px'}
+    .pull-right.btn.btn-success.add-book-btn{style: 'padding: 0px 10px'}
+      %h5= icon('plus', 'add')
 
 - if @spell_books.count > 0
-  %table.table
+  %table#spell-list.table
     - @spell_books.each do |spell_book|
       - scm = spell_book.spell_code_map
       - stats = scm_stats(scm)
@@ -18,7 +24,7 @@
             = icon('edit', '', {class: 'edit-nick-btn', style: 'margin-left: 10px'})
             = icon('times', '', {class: 'delete-book-btn', style: 'margin-left: 2px;'})
           - if scm.spells.count == 0
-            Contains no spells.
+            %p= 'Contains no spells.'
           - else
             %p= "Contains #{pluralize(stats[:count], 'spell')}, for level #{stats[:levels].to_sentence}, #{stats[:classes].map{|dnd_class| dnd_class.pluralize}.to_sentence} from the #{stats[:schools].to_sentence} school#{stats[:schools].count == 1 ? '' : 's'} of magic."
 

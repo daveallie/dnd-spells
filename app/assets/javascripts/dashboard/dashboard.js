@@ -8,6 +8,66 @@ Dashboard.init = function() {
   $('.delete-book-btn').on('click', function() {
     Dashboard.Delete.bootbox($(this).parents('tr').data('spell-book-id'), $(this).parents('tr'))
   })
+
+  $('.add-book-btn').on('click', function() {
+    Dashboard.Add.bootbox($(this).parents('table'))
+  })
+}
+
+Dashboard.Add = {
+  bootbox: function(table) {
+    bootbox.prompt({
+      title: "Existing Spell Book Key",
+      inputType: "text",
+      callback: function(key) {
+        if (key != null) {
+          Dashboard.Add.save(key, table)
+        }
+      }
+    })
+  },
+
+  Consts: {
+    SUCCESS_MESSAGE: 'Successfully added Spell List',
+    FAILURE_MESSAGE: 'Failed to add Spell List'
+  },
+
+  save_success: function (data) {
+    var $success_flash = $('#save-update-success-message')
+    $('.save-update-message').hide()
+    $success_flash.children('span').html(Dashboard.Add.Consts.SUCCESS_MESSAGE)
+    $success_flash.show(300)
+
+    // Insert row at top of table
+    $(data.row).insertBefore('#spell-list > tbody > tr:first')
+  },
+
+  save_fail: function (jqXHR, textStatus) {
+    var $fail_flash = $('#save-update-fail-message')
+    $('.save-update-message').hide()
+    $fail_flash.children('span').html(jqXHR.responseJSON.message || Dashboard.Add.Consts.FAILURE_MESSAGE)
+    $fail_flash.show(300)
+  },
+
+  save: function (key) {
+    Dashboard.Add.ajax_save(Dashboard.Add.save_success, Dashboard.Add.save_fail, key)
+  },
+
+  ajax_save: function (success_funct, fail_funct, key) {
+    $.ajax({
+      url: "/spell_book",
+      type: "POST",
+      data: {
+        key: key
+      },
+      dataType: "json"
+    }).done(function (data) {
+      success_funct(data)
+    }).fail(function (jqXHR, textStatus) {
+      console.log(jqXHR)
+      fail_funct(jqXHR, textStatus)
+    });
+  }
 }
 
 Dashboard.Saving = {
@@ -23,19 +83,25 @@ Dashboard.Saving = {
     })
   },
 
-  //Consts: {
-  //  SAVE_SUCCESS_MESSAGE: 'Successfully saved your spell list.',
-  //  UPDATE_SUCCESS_MESSAGE: 'Successfully updated your spell list.',
-  //  SAVE_FAIL_MESSAGE: 'Failed to save your spell list.',
-  //  UPDATE_FAIL_MESSAGE: 'Failed to update your spell list.',
-  //  UPDATE_AUTH_FAIL_MESSAGE: 'Password incorrect! Spell list was not updated.'
-  //},
+  Consts: {
+    SUCCESS_MESSAGE: 'Successfully saved Spell List',
+    FAILURE_MESSAGE: 'Failed to save Spell List'
+  },
 
   save_success: function (data, nick_span) {
+    var $success_flash = $('#save-update-success-message')
+    $('.save-update-message').hide()
+    $success_flash.children('span').html(Dashboard.Saving.Consts.SUCCESS_MESSAGE)
+    $success_flash.show(300)
+
     $(nick_span).html(data.nickname)
   },
 
   save_fail: function (jqXHR, textStatus) {
+    var $fail_flash = $('#save-update-fail-message')
+    $('.save-update-message').hide()
+    $fail_flash.children('span').html(Dashboard.Saving.Consts.FAILURE_MESSAGE)
+    $fail_flash.show(300)
   },
 
   save: function (id, nickname, nick_span) {
@@ -45,7 +111,7 @@ Dashboard.Saving = {
   ajax_save: function (success_funct, fail_funct, id, nickname, nick_span) {
     $.ajax({
       url: "/spell_book",
-      type: "POST",
+      type: "PUT",
       data: {
         id: id,
         nickname: nickname
@@ -68,11 +134,26 @@ Dashboard.Delete = {
     });
   },
 
+  Consts: {
+    SUCCESS_MESSAGE: 'Successfully deleted Spell List',
+    FAILURE_MESSAGE: 'Failed to delete Spell List'
+  },
+
   delete_success: function (data, spell_book_row) {
+    var $success_flash = $('#save-update-success-message')
+    $('.save-update-message').hide()
+    $success_flash.children('span').html(Dashboard.Delete.Consts.SUCCESS_MESSAGE)
+    $success_flash.show(300)
+
     $(spell_book_row).remove()
   },
 
   delete_fail: function (jqXHR, textStatus) {
+    var $fail_flash = $('#save-update-fail-message')
+    $('.save-update-message').hide()
+    $fail_flash.children('span').html(Dashboard.Delete.Consts.FAILURE_MESSAGE)
+    $fail_flash.show(300)
+
   },
 
   delete: function (id, spell_book_row) {

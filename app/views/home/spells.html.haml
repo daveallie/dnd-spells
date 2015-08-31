@@ -94,14 +94,7 @@
         0 spells
     .container-fluid#main-content{style: 'height: 100%; overflow: auto; margin-left: 260px; margin-right: 20px'}
       = render 'common/notice_div'
-
-      .alert.center.save-update-message#save-update-success-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:success)}
-        %button.close{'data-hide': 'alert'} ×
-        %span Successfully saved your spell list.
-
-      .alert.center.save-update-message#save-update-fail-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:error)}
-        %button.close{'data-hide': 'alert'} ×
-        %span Failed to save your spell list.
+      = render 'common/permanent_notices'
       .row
         .col-xs-2{style: 'padding-top: 20px'}
           .btn.btn-success.save-button#save-new{style: "#{'display: none' unless @spell_code}"}= "Save#{' as new' if @spell_code}"
