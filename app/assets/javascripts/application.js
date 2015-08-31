@@ -12,9 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
 //= require bootstrap-sprockets
 //= require third_party
+//= require dashboard
 //= require spells
 
 function uncover() {
@@ -24,6 +24,10 @@ function uncover() {
 $(window).on('cover-ready', function() {
   uncover()
 })
+
+function uncover() {
+  $('#cover').fadeOut(1000);
+}
 
 function findBootstrapEnvironment() {
   var envs = ['xs', 'sm', 'md', 'lg']
@@ -41,3 +45,9 @@ function findBootstrapEnvironment() {
     }
   }
 }
+
+$(document).ready(function() {
+  $('[data-hide]').on("click", function () {
+    $(this).closest("." + $(this).attr("data-hide")).hide(300);
+  });
+})

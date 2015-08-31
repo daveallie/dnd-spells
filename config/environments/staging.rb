@@ -14,14 +14,13 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
   config.action_mailer.default_url_options = {
-      host: 'dnd.daveallie.com',
-      :protocol => 'https'
+      host: ENV['HEROKU_DOMAIN']
   }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       :user_name => ENV['SEND_GRID_USERNAME'],
       :password => ENV['SEND_GRID_PASSWORD'],
-      :domain => 'dnd.daveallie.com',
+      :domain => ENV['HEROKU_DOMAIN'],
       :address => 'smtp.sendgrid.net',
       :port => 587,
       :authentication => :plain,

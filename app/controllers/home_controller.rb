@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  layout 'application_covered'
+
   # GET /spells, GET /
   def spells
     get_all_spells
@@ -68,7 +70,6 @@ class HomeController < ApplicationController
 
   # GET /dice
   def dice
-
   end
 
   def get_all_spells

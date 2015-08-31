@@ -242,10 +242,6 @@ Spell.init = function() {
       $save_button.hide()
   })
 
-  $('[data-hide]').on("click", function(){
-    $(this).closest("." + $(this).attr("data-hide")).hide(300);
-  });
-
   $('[data-toggle="tooltip"]').tooltip();
   Spell.Helpers.update_spell_count()
 
