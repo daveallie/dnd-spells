@@ -30,9 +30,9 @@ Rails.application.routes.draw do
     match  'user' => 'devise/registrations#update', via: [:patch, :put], as: nil
     # delete 'user' => 'devise/registrations#destroy'
 
-    post   'confirmation' => 'devise/confirmations#create', as: :user_confirmation
     get    'confirmation/new' => 'devise/confirmations#new', as: :new_user_confirmation
-    get    'confirmation' => 'devise/confirmations#show'
+    get    'confirmation' => 'devise/confirmations#show', as: :user_confirmation
+    post   'confirmation' => 'devise/confirmations#create'
   end
 
   get 'dashboard' => 'dashboard#index'
