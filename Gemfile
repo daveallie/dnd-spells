@@ -27,7 +27,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1'
 gem 'rails-html-sanitizer', '~> 1.0'
 gem 'puma', '~> 2.12'
+
 gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap_form'
+
 gem 'autoprefixer-rails', '~> 5.2'
 gem 'haml-rails', '~> 0.9'
 gem 'font-awesome-sass', '~> 4.3.0'
@@ -36,15 +39,17 @@ gem 'dnd-namer'
 gem 'prawn', '~> 2.0'
 gem 'prawn-table', '~> 0.2'
 gem 'prawn-icon', '~> 0.7'
+gem 'devise'
 
 group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+  gem 'better_errors'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
-group :production do
+group :production, :staging do
   gem 'rails_12factor'
 end

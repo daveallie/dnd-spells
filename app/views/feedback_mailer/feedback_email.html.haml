@@ -1,0 +1,7 @@
+- if @information.has_key?(:user)
+  - user = @information[:user]
+  %h1= "Feedback from user: #{user.username} [#{user.id}] (#{user.email})"
+- else
+  %h1= "Feedback from guest: #{@information[:name]} (#{@information[:email]})"
+%pre
+  = preserve(@feedback)

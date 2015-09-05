@@ -1,6 +1,3 @@
-- content_for :head do
-  = javascript_include_tag 'jquery.tablesorter.mod'
-  = javascript_include_tag 'home/spells'
 - content_for :title do
   = 'Spell Book'
 
@@ -96,15 +93,8 @@
       %span.spell-count
         0 spells
     .container-fluid#main-content{style: 'height: 100%; overflow: auto; margin-left: 260px; margin-right: 20px'}
-      = render 'layouts/notice_div'
-
-      .alert.center.save-update-message#save-update-success-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:success)}
-        %button.close{'data-hide': 'alert'} ×
-        %span Successfully saved your spell list.
-
-      .alert.center.save-update-message#save-update-fail-message{style: 'margin-top: 15px; display: none', class: bootstrap_class_for(:error)}
-        %button.close{'data-hide': 'alert'} ×
-        %span Failed to save your spell list.
+      = render 'common/notice_div'
+      = render 'common/permanent_notices'
       .row
         .col-xs-2{style: 'padding-top: 20px'}
           .btn.btn-success.save-button#save-new{style: "#{'display: none' unless @spell_code}"}= "Save#{' as new' if @spell_code}"
@@ -115,7 +105,7 @@
           %h2#spell-code{style: "margin-top: 0; margin-bottom: 10px; #{'display: none' unless @spell_code}"}= @spell_code || ''
         .col-xs-2{style: 'padding-top: 35px; text-align: right'}
           - if @spell_code
-            = link_to 'Generate PDF', '#', class: 'btn btn-info', 'data-toggle': 'tooltip', 'data-placement': 'left', 'title': 'Coming Soon'
+            = link_to 'Generate PDF', spell_code_path(@spell_code, format: 'pdf'), class: 'btn btn-info'
       %table.full-table.table{style: 'margin-top: 30px'}
         %thead
           %tr
@@ -177,5 +167,8 @@
                     %td{colspan: spell['m'] ? 3 : 2}
                       %h5 Description
                       = raw spell['description']
-      = render 'layouts/footer'
+      = render 'common/footer'
       = debug(params) if Rails.env.development?
+      = debug(flash) if Rails.env.development?
+:javascript
+  Spell.init()

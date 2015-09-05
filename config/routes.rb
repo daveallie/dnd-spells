@@ -1,62 +1,41 @@
 Rails.application.routes.draw do
   root 'home#spells'
-  get 'spells' => 'home#spells'
-  get 'spells/:spell_code' => 'home#spells_code', as: 'spell_code'
+  get  'spells' => 'home#spells'
+  get  'spells/:spell_code' => 'home#spells_code', as: 'spell_code'
   post 'spells' => 'home#update_spells'
-  get 'dice'=> 'home#dice'
+  get  'dice'=> 'home#dice'
+  post 'spell_book' => 'dashboard#add_spell_book', as: 'add_spell_book'
+  match 'spell_book' => 'dashboard#update_spell_book', via: [:patch, :put], as: 'update_spell_book'
+  delete 'spell_book' => 'dashboard#delete_spell_book', as: 'delete_spell_book'
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  # devise_for :user, path: '', path_names: {
+  #                     sign_in: 'login', sign_out: 'logout',
+  #                     sign_up: 'register', password: 'forgot',
+  #                     edit: 'edit/profile' }
+  devise_for :user, skip: [:session, :password, :registration, :confirmation]
+  as :user do
+    get    'login' => 'devise/sessions#new', as: :new_user_session
+    post   'login' => 'devise/sessions#create', as: :user_session
+    delete 'logout' => 'devise/sessions#destroy', as: :destroy_user_session
 
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+    post   'forgot' => 'devise/passwords#create', as: :user_password
+    get    'forgot' => 'devise/passwords#new', as: :new_user_password
+    get    'forgot/edit' => 'devise/passwords#edit', as: :edit_user_password
+    match  'forgot' => 'devise/passwords#update', via: [:patch, :put], as: nil
 
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+    get    'cancel' => 'devise/registrations#cancel', as: :cancel_user_registration
+    post   'user' => 'devise/registrations#create', as: :user_registration
+    get    'register' => 'devise/registrations#new', as: :new_user_registration
+    get    'user' => 'devise/registrations#edit', as: :edit_user_registration
+    match  'user' => 'devise/registrations#update', via: [:patch, :put], as: nil
+    # delete 'user' => 'devise/registrations#destroy'
 
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+    get    'confirmation/new' => 'devise/confirmations#new', as: :new_user_confirmation
+    get    'confirmation' => 'devise/confirmations#show', as: :user_confirmation
+    post   'confirmation' => 'devise/confirmations#create'
+  end
 
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+  get 'dashboard' => 'dashboard#index'
+  get 'feedback' => 'feedback#index'
+  post 'feedback' => 'feedback#save'
 end
