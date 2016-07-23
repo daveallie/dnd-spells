@@ -1,7 +1,7 @@
 %h1 Resend confirmation instructions
 .row
   .col-lg-6.col-lg-offset-3.col-sm-8.col-sm-offset-2.col-xs-12
-    = bootstrap_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+    = bootstrap_form_for(resource, as: resource_name, url: confirmation_path, html: { method: :post }) do |f|
       = devise_error_messages!
       = f.text_field :username, autofocus: true
       %br
