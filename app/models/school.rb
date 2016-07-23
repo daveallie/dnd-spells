@@ -1,3 +1,3 @@
-class School < ActiveRecord::Base
+class School < ApplicationRecord
   has_many :spells
 end

@@ -3,6 +3,7 @@ class FeedbackController < ApplicationController
   end
 
   def save
+    params = params.permit([:feedback, :email, :name]).to_h
     if params[:feedback].blank?
       flash[:error] = 'You must enter text into the feedback form!'
     else

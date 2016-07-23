@@ -8,6 +8,7 @@ class DashboardController < ApplicationController
   end
 
   def add_spell_book
+    params = params.permit([:key]).to_h
     status = 200
     message = 'Failed to add new Spell List!'
     if (key = params[:key]).nil?
@@ -50,6 +51,7 @@ class DashboardController < ApplicationController
   end
 
   def update_spell_book
+    params = params.permit([:nickname, :id]).to_h
     status = 200
     nickname = params[:nickname]
     if params[:id].nil? || params[:nickname].nil?
@@ -73,6 +75,7 @@ class DashboardController < ApplicationController
   end
 
   def delete_spell_book
+    params = params.permit([:id]).to_h
     status = 200
     if params[:id].nil?
       status = 400
