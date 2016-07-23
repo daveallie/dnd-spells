@@ -73,12 +73,12 @@ Dashboard.Add = {
 
   ajax_save: function (success_funct, fail_funct, key) {
     $.ajax({
+      cache: false,
       url: "/spell_book",
       type: "POST",
       data: {
         key: key
-      },
-      dataType: "json"
+      }
     }).done(function (data) {
       success_funct(data)
     }).fail(function (jqXHR, textStatus) {
@@ -128,13 +128,12 @@ Dashboard.Saving = {
 
   ajax_save: function (success_funct, fail_funct, id, nickname, nick_span) {
     $.ajax({
-      url: "/spell_book",
+      cache: false,
+      url: "/spell_book/" + id,
       type: "PUT",
       data: {
-        id: id,
         nickname: nickname
-      },
-      dataType: "json"
+      }
     }).done(function (data) {
       success_funct(data, nick_span)
     }).fail(function (jqXHR, textStatus) {
@@ -188,12 +187,9 @@ Dashboard.Delete = {
 
   ajax_delete: function (success_funct, fail_funct, id, spell_book_row) {
     $.ajax({
-      url: "/spell_book",
-      type: "DELETE",
-      data: {
-        id: id
-      },
-      dataType: "json"
+      cache: false,
+      url: "/spell_book/" + id,
+      type: "DELETE"
     }).done(function (data) {
       success_funct(data, spell_book_row)
     }).fail(function (jqXHR, textStatus) {

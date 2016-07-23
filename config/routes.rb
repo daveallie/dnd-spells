@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   post 'spells' => 'home#update_spells'
   get  'dice'=> 'home#dice'
   post 'spell_book' => 'dashboard#add_spell_book', as: 'add_spell_book'
-  match 'spell_book' => 'dashboard#update_spell_book', via: [:patch, :put], as: 'update_spell_book'
-  delete 'spell_book' => 'dashboard#delete_spell_book', as: 'delete_spell_book'
+  match 'spell_book/:id' => 'dashboard#update_spell_book', via: [:patch, :put], as: 'update_spell_book'
+  delete 'spell_book/:id' => 'dashboard#delete_spell_book', as: 'delete_spell_book'
 
   # devise_for :user, path: '', path_names: {
   #                     sign_in: 'login', sign_out: 'logout',

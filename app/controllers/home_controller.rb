@@ -39,7 +39,6 @@ class HomeController < ApplicationController
     key = params[:key]
     spell_ids = Spell.where(id: params[:spells]).pluck(:id)
     password = params[:password]
-    status = 200
 
     if key == 'new'
       key = DndNamer.heroku
@@ -58,7 +57,7 @@ class HomeController < ApplicationController
         scm.spells = spell_ids
         scm.save
       else
-        status = 403
+        head :not_found and return
       end
     end
 
