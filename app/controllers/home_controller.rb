@@ -35,7 +35,6 @@ class HomeController < ApplicationController
   # POST /spells
   def update_spells
     require 'dnd-namer'
-    require 'airbrake'
 
     key = params[:key]
     spell_ids = Spell.where(id: params[:spells]).pluck(:id)
@@ -51,8 +50,6 @@ class HomeController < ApplicationController
         scm.key = key
         clashes += 1
       end
-
-      Airbrake.notify(::Exceptions::SpellCodeCollisionException.new(clashes.to_s)) if clashes > 0
     else
       scm = SpellCodeMap.find_by(key: key)
       scm = scm.password_digest.nil? ? scm : scm.authenticate(password)
