@@ -3,26 +3,44 @@ class HomeController < ApplicationController
 
   # GET /spells, GET /
   def spells
-    get_all_spells
-    @spells = @spells.sort_by {|k, v| v['name']}
+    get_schools
+    get_classes
+
+    respond_to do |format|
+      format.json {
+        get_all_spells
+        render json: @spells.sort_by {|k, v| v['name']}.to_json
+      }
+      format.html {}
+    end
   end
 
   # GET /spells/:spell_code
   def spells_code
     @spell_code = params[:spell_code]
-    spell_code_map = SpellCodeMap.where(key: @spell_code).first
+    spell_code_map = SpellCodeMap.find_by(key: @spell_code)
     if spell_code_map
-      spell_code_map.touch
-      get_all_spells
-      spell_code_map.spells.each do |spell_id|
-        @spells[spell_id][:starred] = true
-      end
+      get_schools
+      get_classes
+
       respond_to do |format|
         format.html do
-          @spells = @spells.sort_by {|k, v| v['name']}
+          spell_code_map.touch
           render 'spells'
         end
+        format.json do
+          get_all_spells
+          spell_code_map.spells.each do |spell_id|
+            @spells[spell_id][:starred] = true
+          end
+          render json: @spells.sort_by {|k, v| v['name']}.to_json
+        end
         format.pdf do
+          get_all_spells
+          spell_code_map.spells.each do |spell_id|
+            @spells[spell_id][:starred] = true
+          end
+          @spells = @spells.sort_by {|k, v| v['name']}
           pdf = SpellBookPdf.new(spell_code_map.spells.map{|spell_id| @spells[spell_id]}, view_context)
           send_data pdf.render, filename: "spellbook_#{@spell_code}.pdf", type: 'application/pdf', disposition: 'inline'
         end
@@ -68,16 +86,24 @@ class HomeController < ApplicationController
   def dice
   end
 
+  def get_schools
+    @schools ||= begin
+      schools = HashWithIndifferentAccess.new
+      School.all.each{|school| schools[school.id] = school.name}
+      schools
+    end
+  end
+
+  def get_classes
+    @classes ||= DndClass.order(name: :asc).pluck(:name)
+  end
+
   def get_all_spells
     @spells = HashWithIndifferentAccess.new
-    schools = HashWithIndifferentAccess.new
     dnd_classes = HashWithIndifferentAccess.new
-    School.all.each{|school| schools[school.id] = school.name}
-    Spell.all.each{|spell| @spells[spell.id] = spell.attributes.with_indifferent_access.reject{|k| k == 'id' || k == 'school_id'}.merge({school: schools[spell.school_id]})}
+    Spell.all.each{|spell| @spells[spell.id] = spell.attributes.with_indifferent_access.reject{|k| k == 'id' || k == 'school_id'}.merge({school: get_schools[spell.school_id]})}
 
     DndClass.all.each{|dnd_class| dnd_classes[dnd_class.id] = dnd_class.name}
     Mastery.all.each{|mastery| (@spells[mastery.spell_id][:classes] ||= []) << dnd_classes[mastery.dnd_class_id]}
-    @classes = DndClass.order(name: :asc).pluck(:name)
-    @schools = schools.values.sort
   end
 end

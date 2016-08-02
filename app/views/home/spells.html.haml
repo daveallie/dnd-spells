@@ -56,7 +56,7 @@
           = icon('plus-square')
         Schools
       %div{style: 'text-align: left; margin-left: 10px; margin-right: 41px', onselectstart: 'return false'}
-        - @schools.each_slice(2) do |schools|
+        - @schools.values.sort.each_slice(2) do |schools|
           .row
             - schools.each do |school|
               .col-xs-6
@@ -121,54 +121,8 @@
               %th{style: 'white-space: nowrap'}
                 = header
         %tbody
-          - @spells.each do |id, spell|
-            %tr.summary.summary-visible{'data-id': id, 'data-name': spell['name'], 'data-level': spell['level'],
-            'data-school': spell['school'], 'data-classes': spell['classes'],
-            'data-vsmrc': [spell['v'], spell['s'], spell['m'], spell['ritual'], spell['concentration']], 'data-ref': spell['reference'][0..-6]}
-              %td.expand{onselectstart: 'return false'}
-                %span.glyphicon.glyphicon-resize-full
-              %td
-                - if spell.has_key? 'starred'
-                  %i.starable.fa.fa-star
-                - else
-                  %i.starable.fa.fa-star-o
-              %td= spell['name']
-              %td{style: 'text-align: center'}= spell['level'] == 0 ? 'Cantrip' : spell['level']
-              %td= spell['school']
-              %td= spell['classes'].sort.join(', ')
-              %td{style: 'text-align: center'}
-                %span.glyphicon{class: "glyphicon-#{spell['v'] ? 'ok' : 'remove'}"}
-              %td{style: 'text-align: center'}
-                %span.glyphicon{class: "glyphicon-#{spell['s'] ? 'ok' : 'remove'}"}
-              %td{style: 'text-align: center'}
-                %span.glyphicon{class: "glyphicon-#{spell['m'] ? 'ok' : 'remove'}"}
-              %td{style: 'text-align: center'}
-                %span.glyphicon{class: "glyphicon-#{spell['ritual'] ? 'ok' : 'remove'}"}
-              %td{style: 'text-align: center'}
-                %span.glyphicon{class: "glyphicon-#{spell['concentration'] ? 'ok' : 'remove'}"}
-              %td= spell['range']
-              %td= spell['duration']
-              %td= spell['casting_time']
-            %tr.details.details-display-none
-              %td{colspan: 14}
-                %table.table.details-table{style: 'background-color: #e7e7e8'}
-                  %tr
-                    - if spell['m']
-                      %td{style: 'width: 30%'}
-                        %h5 Material
-                        = raw spell['material']
-                    %td
-                      %h5 Short Description
-                      = raw spell['short_description']
-                    %td{style: 'width: 10%'}
-                      %h5 Reference
-                      = spell['reference'][0..-5] + spell['reference'][-4..-1].to_i.to_s
-                  %tr
-                    %td{colspan: spell['m'] ? 3 : 2}
-                      %h5 Description
-                      = raw spell['description']
       = render 'common/footer'
       = debug(params) if Rails.env.development?
       = debug(flash) if Rails.env.development?
 :javascript
-  Spell.init()
+  Spell.init("#{@spell_code}")
