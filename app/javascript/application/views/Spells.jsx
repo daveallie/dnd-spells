@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import request from "axios"
 
 import { setAllFromAPI } from "../store/spells/actions"
-import { setLoadingState } from "../store/loading/actions"
+import { setLoading, unsetLoading } from "../store/loading/actions"
 import store from "../store"
 import LoadingSpinner from "../components/LoadingSpinner"
 import Sidebar from "../components/Sidebar"
@@ -13,7 +13,7 @@ const mapStateToProps = ({ spells, loading }) => ({ spells, loading })
 
 class Spells extends Component {
   componentWillMount() {
-    store.dispatch(setLoadingState(true))
+    store.dispatch(setLoading())
   }
 
   componentDidMount() {
@@ -21,7 +21,7 @@ class Spells extends Component {
       .get('/api/v1/spells.json', { responseType: 'json' })
       .then(res => {
         store.dispatch(setAllFromAPI(res.data))
-        store.dispatch(setLoadingState(false))
+        store.dispatch(unsetLoading())
       })
       .catch(error => this.setState({ fetchCommentsError: error }))
   }

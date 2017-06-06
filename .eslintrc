@@ -1,0 +1,13 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [
+    "immutable"
+  ],
+  "globals": {
+    "window": true
+  },
+  "rules": {
+    "no-underscore-dangle": 0
+  }
+}
