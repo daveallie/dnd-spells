@@ -33,3 +33,5 @@ Temporary Items
 /.bundle
 /vendor/bundle
 .byebug_history
+/public/packs
+/node_modules
