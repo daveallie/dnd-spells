@@ -5,8 +5,8 @@ require 'json'
 module SeedSetup
   class << self
     def gen_spell(**opts)
-      spell_fields = %i[name casting_time range duration short_description description v s m ritual concentration
-                        reference]
+      spell_fields = %i[name level casting_time range duration short_description description v s m ritual concentration
+                        material reference]
       spell = Spell.new(opts.slice(*spell_fields))
       spell.school = school(opts[:school])
       spell.save!
