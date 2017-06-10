@@ -11,11 +11,11 @@ const Spell = ({ spell }) => (
 );
 
 Spell.propTypes = {
-  spell: ImmutablePropTypes.mapOf({
+  spell: ImmutablePropTypes.contains({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     level: PropTypes.number
-  }).isRequired,
+  }),
 };
 
 export default Spell;

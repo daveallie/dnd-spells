@@ -4,8 +4,7 @@ import { routerReducer, routerMiddleware } from 'react-router-redux';
 import { OrderedMap, Record, fromJS } from 'immutable';
 
 import setupStore from '../helpers/setupStore';
-import loading from './loading/reducers';
-import spells from './spells/reducers';
+import { spellsReducer, loadingReducer } from '../logic/core/index';
 
 const data = window.__INITIAL_STATE__ || {};
 
@@ -17,8 +16,8 @@ const initialState = new StateRecord({
 });
 
 const reducer = combineReducers({
-  spells,
-  loading,
+  spells: spellsReducer,
+  loading: loadingReducer,
   router: routerReducer,
 }, initialState);
 
